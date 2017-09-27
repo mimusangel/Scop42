@@ -16,8 +16,7 @@ OBJ_ALL_DIR = $(SRC_ALL_DIR:$(SRC_DIR)%=$(OBJ_DIR)%)
 IFLAGS = -I $(INC_DIR) -I./lib/fnl/incs/
 LIBFLAGS = -lglfw -lGLEW -lm
 LIBFLAGS += -L./lib/fnl/ -lfnl
-LIBFLAGS += -framework Cocoa -framework IOKit -framework CoreVideo
-LIBFLAGS += -framework OpenGL
+LIBFLAGS += -framework Cocoa -framework IOKit -framework CoreVideo -framework OpenGL
 CC = gcc
 RM = /bin/rm -f
 
@@ -28,26 +27,22 @@ build:
 
 lib-all:
 	@$(MAKE) -C./lib/fnl/ all
-	@echo "Make lib-all :\033[1;32m DONE !\033[m"
 
 lib-clean:
 	@$(MAKE) -C./lib/fnl/ clean
-	@echo "Make lib-clean :\033[1;31m DONE !\033[m"
 
 lib-fclean:
 	@$(MAKE) -C./lib/fnl/ fclean
-	@echo "Make lib-fclean :\033[1;31m DONE !\033[m"
 
 lib-re:
 	@$(MAKE) -C./lib/fnl/ re
-	@echo "Make lib-fclean :\033[1;31m DONE !\033[m"
 
 install:
 	@brew install glfw
 	@brew switch glfw 3.2.1
 	@brew install glew
 	@brew switch glew 2.1.0
-	@echo "Make install :\033[1;32m DONE !\033[m"
+	@echo "Make install :\033[1;32m DONE!\033[m"
 
 $(NAME) : $(OBJS)
 	@echo "Make Objects :\033[1;32m DONE!\033[m"
@@ -59,12 +54,12 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 
 clean:
 	$(RM) $(OBJS)
-	@echo "Make clean :\033[1;31m DONE !\033[m"
+	@echo "Make clean :\033[1;31m DONE!\033[m"
 
 fclean : clean
 	@$(RM) -rf $(OBJ_DIR)
 	$(RM) $(NAME)
-	@echo "Make fclean :\033[1;31m DONE !\033[m"
+	@echo "Make fclean :\033[1;31m DONE!\033[m"
 
 re: fclean all
 
