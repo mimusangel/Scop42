@@ -56,7 +56,7 @@ clean:
 	$(RM) $(OBJS)
 	@echo "Make clean :\033[1;31m DONE!\033[m"
 
-fclean : clean
+fclean : lib-fclean clean
 	@$(RM) -rf $(OBJ_DIR)
 	$(RM) $(NAME)
 	@echo "Make fclean :\033[1;31m DONE!\033[m"

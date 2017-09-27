@@ -13,10 +13,19 @@ t_fnl			*fnl_new(const char *path)
 		return (NULL);
 	file->fd = open(path, O_RDONLY);
 	file->buf = NULL;
+	file->read = 0;
 	if (file->fd > 0)
 		return (file);
 	fnl_free(&file);
 	return (NULL);
+}
+
+void			fnl_offset(t_fnl *file, ssize_t offset)
+{
+	if (offset < 0)
+		file->read = 0;
+	else
+		file->read = offset;
 }
 
 void			fnl_free(t_fnl **file)
@@ -25,11 +34,7 @@ void			fnl_free(t_fnl **file)
 		return ;
 	if ((*file)->fd > 0)
 		close((*file)->fd);
+	free((*file)->buf);
 	free(*file);
 	*file = NULL;
-}
-
-int				fnl_next_line(t_fnl *file)
-{
-	return (0);
 }

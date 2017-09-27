@@ -3,7 +3,9 @@ INC_DIR = incs
 SRC_DIR = srcs
 OBJ_DIR = objs
 
-FILES = fnl.c
+FILES = fnl.c \
+		fnl_str.c \
+		fnl_reader.c
 
 # Liste des fichiers
 SRCS = $(addprefix $(SRC_DIR)/,$(FILES))
