@@ -13,15 +13,34 @@ OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 SRC_ALL_DIR = $(dir $(SRCS))
 OBJ_ALL_DIR = $(SRC_ALL_DIR:$(SRC_DIR)%=$(OBJ_DIR)%)
 
-IFLAGS = -I $(INC_DIR)
+IFLAGS = -I $(INC_DIR) -I./lib/fnl/incs/
+LIBFLAGS = -lglfw -lGLEW -lm
+LIBFLAGS += -L./lib/fnl/ -lfnl
+LIBFLAGS += -framework Cocoa -framework IOKit -framework CoreVideo
+LIBFLAGS += -framework OpenGL
 CC = gcc
-LIBFLAGS = -lglfw -lGLEW -lm -framework Cocoa -framework IOKit -framework CoreVideo -framework OpenGL
 RM = /bin/rm -f
 
-all: build $(NAME)
+all: build lib-all $(NAME)
 
 build:
 	@mkdir -p $(OBJ_ALL_DIR)
+
+lib-all:
+	@$(MAKE) -C./lib/fnl/ all
+	@echo "Make lib-all :\033[1;32m DONE !\033[m"
+
+lib-clean:
+	@$(MAKE) -C./lib/fnl/ clean
+	@echo "Make lib-clean :\033[1;31m DONE !\033[m"
+
+lib-fclean:
+	@$(MAKE) -C./lib/fnl/ fclean
+	@echo "Make lib-fclean :\033[1;31m DONE !\033[m"
+
+lib-re:
+	@$(MAKE) -C./lib/fnl/ re
+	@echo "Make lib-fclean :\033[1;31m DONE !\033[m"
 
 install:
 	@brew install glfw
@@ -49,4 +68,4 @@ fclean : clean
 
 re: fclean all
 
-.PHONY: all clean fclean re build install
+.PHONY: all clean fclean re build install lib
