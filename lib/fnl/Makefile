@@ -5,6 +5,7 @@ OBJ_DIR = objs
 
 FILES = fnl.c \
 		fnl_str.c \
+		fnl_value.c \
 		fnl_reader.c
 
 # Liste des fichiers
