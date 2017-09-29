@@ -13,9 +13,9 @@ OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 SRC_ALL_DIR = $(dir $(SRCS))
 OBJ_ALL_DIR = $(SRC_ALL_DIR:$(SRC_DIR)%=$(OBJ_DIR)%)
 
-IFLAGS = -I $(INC_DIR) -I./lib/fnl/incs/
+IFLAGS = -I $(INC_DIR) -I./lib/fnl/incs/ -I./lib/fnl/bytebuffer/
 LIBFLAGS = -lglfw -lGLEW -lm
-LIBFLAGS += -L./lib/fnl/ -lfnl
+LIBFLAGS += -L./lib/fnl/ -lfnl -L./lib/bytebuffer/ -lbytebuffer
 LIBFLAGS += -framework Cocoa -framework IOKit -framework CoreVideo -framework OpenGL
 CC = gcc
 RM = /bin/rm -f
@@ -27,15 +27,19 @@ build:
 
 lib-all:
 	@$(MAKE) -C./lib/fnl/ all
+	@$(MAKE) -C./lib/bytebuffer/ all
 
 lib-clean:
 	@$(MAKE) -C./lib/fnl/ clean
+	@$(MAKE) -C./lib/bytebuffer/ clean
 
 lib-fclean:
 	@$(MAKE) -C./lib/fnl/ fclean
+	@$(MAKE) -C./lib/bytebuffer/ fclean
 
 lib-re:
 	@$(MAKE) -C./lib/fnl/ re
+	@$(MAKE) -C./lib/bytebuffer/ re
 
 install:
 	@brew install glfw

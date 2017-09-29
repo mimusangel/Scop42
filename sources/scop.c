@@ -6,7 +6,7 @@
 /*   By: mgallo <mgallo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/29 11:34:13 by mgallo            #+#    #+#             */
-/*   Updated: 2017/09/29 11:41:11 by mgallo           ###   ########.fr       */
+/*   Updated: 2017/09/29 13:09:19 by mgallo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,21 +28,13 @@ static void 	parse_obj(t_fnl *file)
 	while ((end = file_next_line(file, &line)) > 0)
 	{
 		if (fnl_strstartwith(line, "v "))
-		{
 			count[0]++;
-		}
 		if (fnl_strstartwith(line, "vt "))
-		{
 			count[1]++;
-		}
 		if (fnl_strstartwith(line, "vn "))
-		{
 			count[2]++;
-		}
 		if (fnl_strstartwith(line, "f "))
-		{
 			count[3]++;
-		}
 		free(line);
 		line = NULL;
 	}
