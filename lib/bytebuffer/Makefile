@@ -3,7 +3,9 @@ INC_DIR = incs
 SRC_DIR = srcs
 OBJ_DIR = objs
 
-FILES = bytebuffer.c 
+FILES = bytebuffer.c \
+		put.c \
+		get.c
 
 # Liste des fichiers
 SRCS = $(addprefix $(SRC_DIR)/,$(FILES))

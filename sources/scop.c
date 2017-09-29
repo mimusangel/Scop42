@@ -6,13 +6,14 @@
 /*   By: mgallo <mgallo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/29 11:34:13 by mgallo            #+#    #+#             */
-/*   Updated: 2017/09/29 13:09:19 by mgallo           ###   ########.fr       */
+/*   Updated: 2017/09/29 20:49:06 by mgallo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <stdlib.h>
 #include <fnl.h>
+#include <bytebuffer.h>
 #include "scop.h"
 
 # include <stdio.h>
@@ -46,19 +47,26 @@ static void 	parse_obj(t_fnl *file)
 
 int		main(int ac, char **av)
 {
-	t_fnl	*file;
-	if (ac > 1)
-	{
-		file = fnl_new(av[1]);
-		if (file)
-		{
-			parse_obj(file);
-			fnl_free(&file);
-		}
-		else
-			write(1, "Impossible d'ouvrir le fichier\n.", 32);
-	}
-	else
-		write(1, "Argument non valide!\n", 21);
+	// t_fnl	*file;
+	// if (ac > 1)
+	// {
+	// 	file = fnl_new(av[1]);
+	// 	if (file)
+	// 	{
+	// 		parse_obj(file);
+	// 		fnl_free(&file);
+	// 	}
+	// 	else
+	// 		write(1, "Impossible d'ouvrir le fichier\n.", 32);
+	// }
+	// else
+	// 	write(1, "Argument non valide!\n", 21);
+	t_bytebuffer *bb = bb_new(8);
+	bb_putfloat(bb, 42.21f);
+	bb_putfloat(bb, 108.5f);
+	printf("%f\n", bb_getfloat(bb));
+	printf("%f\n", bb_getfloat(bb));
+	bb_free(&bb);
+
 	return (0);
 }

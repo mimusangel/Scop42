@@ -36,3 +36,9 @@ void			bb_free(t_bytebuffer **bb)
 	free(*bb);
 	*bb = NULL;
 }
+
+void			bb_setindex(t_bytebuffer *bb, size_t index)
+{
+	if (bb)
+		bb->index = (index < bb->capacity) ? index : bb->capacity - 1;
+}

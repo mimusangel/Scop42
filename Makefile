@@ -13,7 +13,7 @@ OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 SRC_ALL_DIR = $(dir $(SRCS))
 OBJ_ALL_DIR = $(SRC_ALL_DIR:$(SRC_DIR)%=$(OBJ_DIR)%)
 
-IFLAGS = -I $(INC_DIR) -I./lib/fnl/incs/ -I./lib/fnl/bytebuffer/
+IFLAGS = -I $(INC_DIR) -I./lib/fnl/incs/ -I./lib/bytebuffer/incs/
 LIBFLAGS = -lglfw -lGLEW -lm
 LIBFLAGS += -L./lib/fnl/ -lfnl -L./lib/bytebuffer/ -lbytebuffer
 LIBFLAGS += -framework Cocoa -framework IOKit -framework CoreVideo -framework OpenGL
