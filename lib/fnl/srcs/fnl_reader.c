@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   fnl_reader.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mgallo <mgallo@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/09/29 11:34:16 by mgallo            #+#    #+#             */
+/*   Updated: 2017/09/29 11:34:18 by mgallo           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
@@ -24,11 +36,11 @@ static void		fnl_read(t_fnl *file)
 	}
 }
 
-int				fnl_next_line(t_fnl *file, char **str)
+int				file_next_line(t_fnl *file, char **str)
 {
 	ssize_t	i;
 
-	if (!file)
+	if (!file || *str != NULL)
 		return (-1);
 	if (file->buf == NULL)
 		fnl_read(file);

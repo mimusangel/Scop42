@@ -1,37 +1,72 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   scop.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mgallo <mgallo@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/09/29 11:34:13 by mgallo            #+#    #+#             */
+/*   Updated: 2017/09/29 11:41:11 by mgallo           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <unistd.h>
 #include <stdlib.h>
 #include <fnl.h>
+#include "scop.h"
 
 # include <stdio.h>
+
+static void 	parse_obj(t_fnl *file)
+{
+	char	*line;
+	int		end;
+	int		count[4];
+
+	line = NULL;
+	count[0] = count[1] = count[2] = count[3] = 0;
+	while ((end = file_next_line(file, &line)) > 0)
+	{
+		if (fnl_strstartwith(line, "v "))
+		{
+			count[0]++;
+		}
+		if (fnl_strstartwith(line, "vt "))
+		{
+			count[1]++;
+		}
+		if (fnl_strstartwith(line, "vn "))
+		{
+			count[2]++;
+		}
+		if (fnl_strstartwith(line, "f "))
+		{
+			count[3]++;
+		}
+		free(line);
+		line = NULL;
+	}
+	printf("Vertex Position number: %d\n", count[0]);
+	printf("Vertex Texture number: %d\n", count[1]);
+	printf("Vertex Normal number: %d\n", count[2]);
+	printf("Face number: %d\n", count[3]);
+}
+
 int		main(int ac, char **av)
 {
-	char *s0 = "v 0.21 0.42 0.69";
-	char *s1 = "vn test";
-	int a = fnl_strstartwith(s0, "v ");
-	int b = fnl_strstartwith(s1, "v ");
-	printf("%d\n", a);
-	printf("%d\n", b);
-	ssize_t count = fnl_strcountchar(s0, ' ');
-	printf("%zd\n", count);
-
-	int i = fnl_getchar(s0, ' ', 0) + 1;
-	double val = fnl_strtodouble(s0 + i);
-	printf("%s\n", s0 + i);
-	printf("val: %f\n", val);
-
-	i = i + fnl_getchar(s0 + i, ' ', 0) + 1;
-	val = fnl_strtodouble(s0 + i);
-	printf("%s\n", s0 + i);
-	printf("val: %f\n", val);
-
-	i = i + fnl_getchar(s0 + i, ' ', 0) + 1;
-	val = fnl_strtodouble(s0 + i);
-	printf("%s\n", s0 + i);
-	printf("val: %f\n", val);
-
-	char *s2 = "f 1//2 3//4 5//6";
-	char *s3 = "f 1/2/3 4/5/6 7/8/9";
-	printf("s2: %s\n", s2 + fnl_strstr(s2, "//"));
-	printf("s3: %s\n", s3 + fnl_strstr(s3, "//"));
+	t_fnl	*file;
+	if (ac > 1)
+	{
+		file = fnl_new(av[1]);
+		if (file)
+		{
+			parse_obj(file);
+			fnl_free(&file);
+		}
+		else
+			write(1, "Impossible d'ouvrir le fichier\n.", 32);
+	}
+	else
+		write(1, "Argument non valide!\n", 21);
 	return (0);
 }
