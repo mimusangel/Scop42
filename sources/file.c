@@ -6,7 +6,7 @@
 /*   By: mgallo <mgallo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/07 03:39:32 by mgallo            #+#    #+#             */
-/*   Updated: 2017/11/07 05:02:45 by mgallo           ###   ########.fr       */
+/*   Updated: 2017/11/07 06:02:14 by mgallo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,33 +15,6 @@
 #include <sys/uio.h>
 #include <fcntl.h>
 #include "scop.h"
-
-char		*ft_strjoin(char const *s1, char const *s2)
-{
-	char	*str;
-	size_t	i;
-	size_t	j;
-
-	str = NULL;
-	i = ft_strlen(s1);
-	j = ft_strlen(s2);
-	if ((str = (char *)malloc(sizeof(char) * (i + j + 1))) == NULL)
-		return (NULL);
-	i = 0;
-	while (s1 && s1[i])
-	{
-		str[i] = s1[i];
-		i++;
-	}
-	j = 0;
-	while (s2 && s2[j])
-	{
-		str[i + j] = s2[j];
-		j++;
-	}
-	str[i + j] = '\0';
-	return (str);
-}
 
 char		*scop_file_content(const char *path)
 {
@@ -68,16 +41,23 @@ char		*scop_file_content(const char *path)
 	return (NULL);
 }
 
-size_t		ft_strchr(const char *str, const char c)
+size_t		get_str_line(char *str, char **line)
 {
 	size_t	i;
 
-	i = 0;
-	while (str && str[i])
-	{
-		if (str[i] == c)
-			return (i);
-		i++;
-	}
+	i = ft_strchr(str, '\n');
+	*line = NULL;
+	if (!((*line) = (char *)malloc(sizeof(char) * (i + 1))))
+		return (0);
+	ft_strcpy(*line, str, i);
+	(*line)[i] = '\0';
 	return (i);
+}
+
+int			get_file_line(int fd, char **line)
+{
+	static char *files[256] = {NULL};
+
+	
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: mgallo <mgallo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 21:15:53 by mgallo            #+#    #+#             */
-/*   Updated: 2017/11/07 05:02:54 by mgallo           ###   ########.fr       */
+/*   Updated: 2017/11/07 05:58:15 by mgallo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,9 @@ size_t		ft_strlen(const char *str);
 void		ft_putstr(const char *str);
 void		ft_putlog(const char *str, const char *strlog);
 char		*ft_strjoin(char const *s1, char const *s2);
-char		*scop_file_content(const char *path);
 size_t		ft_strchr(const char *str, const char c);
+void		ft_strcpy(char *dest, char *src, size_t size);
+char		*scop_file_content(const char *path);
+size_t		get_str_line(char *str, char **line);
 
 #endif
