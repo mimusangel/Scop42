@@ -1,7 +1,7 @@
 NAME = scop
 SRC_DIR = sources
 OBJ_DIR = obj
-FILES = scop.c log.c
+FILES = scop.c log.c file.c
 
 SRCS = $(addprefix $(SRC_DIR)/, $(FILES))
 OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)

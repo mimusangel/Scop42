@@ -6,7 +6,7 @@
 /*   By: mgallo <mgallo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 21:15:50 by mgallo            #+#    #+#             */
-/*   Updated: 2017/11/07 02:03:24 by mgallo           ###   ########.fr       */
+/*   Updated: 2017/11/07 04:14:19 by mgallo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,11 +73,13 @@ int		main(int ac, char **av)
 {
 	t_scop	scop;
 
-	// if (ac < 2 || ac > 6)
-	// {
-	//
-	// 	return (0);
-	// }
+	if (ac < 2)
+	{
+		ft_putstr("Usage: ");
+		ft_putstr(av[0]);
+		ft_putstr(" <file.obj>\n");
+		return (0);
+	}
 	scop.run = scop_load(&scop);
 	scop_loop(&scop);
 	scop_unload(&scop);

@@ -6,11 +6,10 @@
 /*   By: mgallo <mgallo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 22:44:47 by mgallo            #+#    #+#             */
-/*   Updated: 2017/11/07 02:03:50 by mgallo           ###   ########.fr       */
+/*   Updated: 2017/11/07 04:10:38 by mgallo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
 #include "scop.h"
 
 size_t		ft_strlen(const char *str)
@@ -18,7 +17,7 @@ size_t		ft_strlen(const char *str)
 	size_t	i;
 
 	i = 0;
-	while (str[i])
+	while (str && str[i])
 		i++;
 	return (i);
 }
