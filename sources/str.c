@@ -6,7 +6,7 @@
 /*   By: mgallo <mgallo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/07 05:56:36 by mgallo            #+#    #+#             */
-/*   Updated: 2017/11/07 23:06:59 by mgallo           ###   ########.fr       */
+/*   Updated: 2017/11/08 03:49:33 by mgallo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,4 +77,22 @@ char		*ft_strsub(char *src, size_t begin, size_t end)
 	ft_strcpy(str, src, size);
 	str[size] = '\0';
 	return (str);
+}
+
+size_t		ft_strstr_count(char *src, char *str)
+{
+	size_t	count;
+	size_t	i;
+
+	count = 0;
+	while (*src)
+	{
+		i = 0;
+		while (src[i] && str[i] && src[i] == str[i])
+			i++;
+		if (!str[i])
+			count++;
+		src++;
+	}
+	return (count);
 }

@@ -6,7 +6,7 @@
 /*   By: mgallo <mgallo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 21:15:50 by mgallo            #+#    #+#             */
-/*   Updated: 2017/11/08 01:24:24 by mgallo           ###   ########.fr       */
+/*   Updated: 2017/11/08 03:55:43 by mgallo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,14 +53,20 @@ static void		scop_loop(t_scop *scop)
 	static const GLfloat g_vertex_buffer_data[] = {
 		-0.5f, -0.5f, 0.0f,
 		0.5f, -0.5f, 0.0f,
-		0.5f,  0.5f, 0.0f
+		0.5f,  0.5f, 0.0f,
+		0.5f,  0.5f, 0.0f,
+		-0.5f, 0.5f, 0.0f,
+		-0.5f, -0.5f, 0.0f,
 	};
 	static const GLfloat g_color_buffer_data[] = {
 	   1.0f, 0.0f, 0.0f,
    	   1.0f, 0.0f, 0.0f,
-   	   1.0f, 0.0f, 0.0f
+   	   1.0f, 0.0f, 0.0f,
+   	   0.0f, 1.0f, 0.0f,
+  	   0.0f, 1.0f, 0.0f,
+  	   0.0f, 1.0f, 0.0f,
 	};
-	static const GLuint buffer_count = 3;
+	static const GLuint buffer_count = 6;
 	GLuint vao;
 	glGenVertexArrays(1, &vao);
 	glBindVertexArray(vao);

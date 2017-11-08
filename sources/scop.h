@@ -6,7 +6,7 @@
 /*   By: mgallo <mgallo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 21:15:53 by mgallo            #+#    #+#             */
-/*   Updated: 2017/11/08 00:52:58 by mgallo           ###   ########.fr       */
+/*   Updated: 2017/11/08 03:49:47 by mgallo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ char		*ft_strjoin(char const *s1, char const *s2);
 size_t		ft_strchr(const char *str, const char c);
 void		ft_strcpy(char *dest, char *src, size_t size);
 char		*ft_strsub(char *src, size_t begin, size_t end);
+size_t		ft_strstr_count(char *src, char *str);
 // file.c
 char		*scop_file_content(const char *path);
 size_t		get_str_line(char *str, char **line);
@@ -66,4 +67,7 @@ GLfloat		*mat4_multiplie(float *m0, float *m1);
 void		scop_shaders_load(t_scop *scop);
 void		scop_shaders_build(t_scop *scop);
 void		scop_shaders_unload(t_scop *scop);
+// number.c
+int			ft_atoi(const char *s);
+double		ft_atof(const char *s);
 #endif
