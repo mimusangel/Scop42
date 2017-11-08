@@ -6,7 +6,7 @@
 /*   By: mgallo <mgallo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/07 05:56:36 by mgallo            #+#    #+#             */
-/*   Updated: 2017/11/07 05:57:01 by mgallo           ###   ########.fr       */
+/*   Updated: 2017/11/07 23:06:59 by mgallo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,13 @@ size_t		ft_strchr(const char *str, const char c)
 	size_t	i;
 
 	i = 0;
-	while (str && str[i])
+	while (str[i])
 	{
 		if (str[i] == c)
 			return (i);
 		i++;
 	}
-	return (i);
+	return (0);
 }
 
 void		ft_strcpy(char *dest, char *src, size_t size)
@@ -62,4 +62,19 @@ void		ft_strcpy(char *dest, char *src, size_t size)
 	i = -1;
 	while (++i < size)
 		dest[i] = src[i];
+}
+
+char		*ft_strsub(char *src, size_t begin, size_t end)
+{
+	char	*str;
+	size_t	size;
+
+	size = end - begin;
+	if (size <= 0 || !src)
+		return (NULL);
+	if ((str = (char *)malloc(sizeof(char) * (size + 1))) == NULL)
+		return (NULL);
+	ft_strcpy(str, src, size);
+	str[size] = '\0';
+	return (str);
 }

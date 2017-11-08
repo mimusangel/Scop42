@@ -6,7 +6,7 @@
 /*   By: mgallo <mgallo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/07 03:39:32 by mgallo            #+#    #+#             */
-/*   Updated: 2017/11/07 06:02:14 by mgallo           ###   ########.fr       */
+/*   Updated: 2017/11/07 23:16:27 by mgallo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,16 @@
 
 char		*scop_file_content(const char *path)
 {
-	char	buf[2049];
+	char	buf[BUFF_SIZE + 1];
 	int		fd;
 	char	*str;
 	char	*tmp;
 	int		i;
 
-	if ((fd = open(path, O_RDONLY))> 2)
+	if ((fd = open(path, O_RDONLY)) > 2)
 	{
 		str = NULL;
-		while ((i = read(fd, buf, 2048)) > 0)
+		while ((i = read(fd, buf, BUFF_SIZE)) > 0)
 		{
 			buf[i] = '\0';
 			tmp = str;
@@ -45,19 +45,12 @@ size_t		get_str_line(char *str, char **line)
 {
 	size_t	i;
 
-	i = ft_strchr(str, '\n');
 	*line = NULL;
+	if ((i = ft_strchr(str, '\n')) <= 0)
+		return (0);
 	if (!((*line) = (char *)malloc(sizeof(char) * (i + 1))))
 		return (0);
 	ft_strcpy(*line, str, i);
 	(*line)[i] = '\0';
 	return (i);
-}
-
-int			get_file_line(int fd, char **line)
-{
-	static char *files[256] = {NULL};
-
-	
-	return (0);
 }
