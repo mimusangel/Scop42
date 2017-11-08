@@ -6,7 +6,7 @@
 /*   By: mgallo <mgallo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 21:15:50 by mgallo            #+#    #+#             */
-/*   Updated: 2017/11/08 03:55:43 by mgallo           ###   ########.fr       */
+/*   Updated: 2017/11/08 07:34:25 by mgallo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,12 +116,14 @@ static void		scop_loop(t_scop *scop)
 
 static void		scop_unload(t_scop *scop)
 {
+	scop_unload_obj(scop);
 	scop_shaders_unload(scop);
 	glfwTerminate();
 }
 
 int		main(int ac, char **av)
 {
+	// printf("%d\n", scop_obj_count_arg("16 2 3 17 \n"));
 	t_scop	scop;
 
 	if (ac < 2)

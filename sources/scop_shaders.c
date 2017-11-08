@@ -6,7 +6,7 @@
 /*   By: mgallo <mgallo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/08 00:45:27 by mgallo            #+#    #+#             */
-/*   Updated: 2017/11/08 01:22:27 by mgallo           ###   ########.fr       */
+/*   Updated: 2017/11/08 07:01:01 by mgallo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,19 @@
 
 void		scop_shaders_load(t_scop *scop)
 {
+	GLfloat		*tmp1;
+	GLfloat		*tmp2;
+
 	scop->program_shader = 0;
 	scop->shader_frag = scop_file_content("sample.frag");
 	scop->shader_vert = scop_file_content("sample.vert");
 	scop->projection = mat4_perspective(70.0f, 1280.f / 720.f, 0.1f, 1000.0f);
 	scop->view = mat4_identity();
-	scop->model = mat4_translate(0, 0, 2);
+	tmp1 = mat4_translate(0, 0, 2);
+	tmp2 = mat4_rotate(0, -45, 0);
+	scop->model = mat4_multiplie(tmp1, tmp2);
+	free(tmp1);
+	free(tmp2);
 }
 
 void		scop_shaders_build(t_scop *scop)

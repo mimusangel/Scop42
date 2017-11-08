@@ -3,9 +3,9 @@ SRC_DIR = sources
 OBJ_DIR = obj
 FILES = scop.c \
 	log.c \
-	str.c number.c \
-	file.c obj.c \
-	shaders.c mat4.c \
+	str.c str2.c number.c \
+	file.c obj.c parser.c \
+	shaders.c mat4.c rotate.c \
 	scop_shaders.c
 
 SRCS = $(addprefix $(SRC_DIR)/, $(FILES))

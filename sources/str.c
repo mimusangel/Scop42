@@ -6,7 +6,7 @@
 /*   By: mgallo <mgallo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/07 05:56:36 by mgallo            #+#    #+#             */
-/*   Updated: 2017/11/08 03:49:33 by mgallo           ###   ########.fr       */
+/*   Updated: 2017/11/08 08:08:14 by mgallo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,9 @@ size_t		ft_strchr(const char *str, const char c)
 	size_t	i;
 
 	i = 0;
-	while (str[i])
-	{
-		if (str[i] == c)
-			return (i);
+	while (str[i] && str[i] != c)
 		i++;
-	}
-	return (0);
+	return (i);
 }
 
 void		ft_strcpy(char *dest, char *src, size_t size)
