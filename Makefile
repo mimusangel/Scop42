@@ -6,7 +6,8 @@ FILES = scop.c \
 	str.c str2.c number.c \
 	file.c obj.c parser.c \
 	shaders.c mat4.c rotate.c \
-	scop_shaders.c
+	scop_shaders.c \
+	array.c
 
 SRCS = $(addprefix $(SRC_DIR)/, $(FILES))
 OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
@@ -21,7 +22,7 @@ RM = /bin/rm -f
 all: build $(NAME)
 
 build :
-	mkdir -p $(OBJ_ALL_DIR)
+	@mkdir -p $(OBJ_ALL_DIR)
 
 $(NAME): $(OBJS)
 	$(CC) -o $@ $^ $(LIBFLAGS)

@@ -6,7 +6,7 @@
 /*   By: mgallo <mgallo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 21:15:50 by mgallo            #+#    #+#             */
-/*   Updated: 2017/11/08 07:34:25 by mgallo           ###   ########.fr       */
+/*   Updated: 2017/11/09 14:00:55 by mgallo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,23 +123,32 @@ static void		scop_unload(t_scop *scop)
 
 int		main(int ac, char **av)
 {
-	// printf("%d\n", scop_obj_count_arg("16 2 3 17 \n"));
-	t_scop	scop;
-
-	if (ac < 2)
+	t_array	*arr;
+	arr = array_bystr("test trop d'espace" , ' ', 1);
+	if (arr)
 	{
-		ft_putstr("Usage: ");
-		ft_putstr(av[0]);
-		ft_putstr(" <file.obj>\n");
-		return (0);
+		printf("%zu\n", arr->len);
+		size_t	i = -1;
+		while (++i < arr->len)
+			printf("%s\n", arr->data[i]);
+		array_free(&arr);
 	}
-	scop_load_obj(&scop, av[1]);
-	scop_shaders_load(&scop);
-	if ((scop.run = scop_load(&scop)) > 0)
-	{
-		scop_shaders_build(&scop);
-		scop_loop(&scop);
-	}
-	scop_unload(&scop);
-	return (0);
+	// t_scop	scop;
+	//
+	// if (ac < 2)
+	// {
+	// 	ft_putstr("Usage: ");
+	// 	ft_putstr(av[0]);
+	// 	ft_putstr(" <file.obj>\n");
+	// 	return (0);
+	// }
+	// scop_load_obj(&scop, av[1]);
+	// scop_shaders_load(&scop);
+	// if ((scop.run = scop_load(&scop)) > 0)
+	// {
+	// 	scop_shaders_build(&scop);
+	// 	scop_loop(&scop);
+	// }
+	// scop_unload(&scop);
+	// return (0);
 }

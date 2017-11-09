@@ -6,7 +6,7 @@
 /*   By: mgallo <mgallo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/08 06:56:36 by mgallo            #+#    #+#             */
-/*   Updated: 2017/11/08 08:12:49 by mgallo           ###   ########.fr       */
+/*   Updated: 2017/11/09 13:20:20 by mgallo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ static void	scop_obj_line(t_scop *scop, char *line)
 		return ;
 	if (ft_strstart(line, "v "))
 	{
-		iv += 1;
+		
+		iv++;
 	}
 }
 

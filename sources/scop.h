@@ -6,7 +6,7 @@
 /*   By: mgallo <mgallo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 21:15:53 by mgallo            #+#    #+#             */
-/*   Updated: 2017/11/08 07:45:40 by mgallo           ###   ########.fr       */
+/*   Updated: 2017/11/09 13:45:10 by mgallo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,12 @@
 # ifndef BUFF_SIZE
 #  define BUFF_SIZE 2048
 # endif
+
+typedef struct	s_array
+{
+	char		**data;
+	size_t		len;
+}				t_array;
 
 typedef struct	s_obj
 {
@@ -97,4 +103,7 @@ double		ft_atof(const char *s);
 void		ft_putnbr(int n);
 void		ft_putfloat(float n);
 void		ft_putfloat_nb(float n, int size);
+// array.c
+t_array		*array_bystr(char *str, char sep, int trim);
+void		array_free(t_array **arr);
 #endif
