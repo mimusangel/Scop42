@@ -6,7 +6,7 @@
 /*   By: mgallo <mgallo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 22:44:47 by mgallo            #+#    #+#             */
-/*   Updated: 2017/11/08 07:38:16 by mgallo           ###   ########.fr       */
+/*   Updated: 2017/11/09 19:01:09 by mgallo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,12 @@ void		ft_putstr(const char *str)
 	write(1, str, ft_strlen(str));
 }
 
-void		ft_putlog(const char *str, const char *strlog)
+int			ft_putlog(const char *str, const char *strlog)
 {
 	ft_putstr(str);
 	ft_putstr(strlog);
 	write(1, "\n", 1);
+	return (0);
 }
 
 void		scop_putmat4(GLfloat *mat)

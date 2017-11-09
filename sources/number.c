@@ -6,7 +6,7 @@
 /*   By: mgallo <mgallo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/08 03:23:03 by mgallo            #+#    #+#             */
-/*   Updated: 2017/11/09 14:48:36 by mgallo           ###   ########.fr       */
+/*   Updated: 2017/11/09 17:43:59 by mgallo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,10 @@ int			ft_atoi(const char *s)
 
 double		ft_atof(const char *s)
 {
-	double	nb;
-	double	mult;
+	double	nb[2];
 	int		sign;
 
-	nb = 0;
+	nb[0] = 0;
 	while (*s == ' ' || *s == '\t')
 		s++;
 	sign = (*s == '-') ? -1 : 1;
@@ -47,20 +46,20 @@ double		ft_atof(const char *s)
 		s++;
 	while (*s && *s >= '0' && *s <= '9')
 	{
-		nb = nb * 10 + (*s - '0');
+		nb[0] = nb[0] * 10 + (*s - '0');
 		s++;
 	}
 	if (*s != '.')
-		return (nb * sign);
+		return (nb[0] * sign);
 	s++;
-	mult = 10.0;
+	nb[1] = 10.0;
 	while (*s && *s >= '0' && *s <= '9')
 	{
-		nb = nb + ((*s - '0') / mult);
-		mult *= 10.0;
+		nb[0] = nb[0] + ((*s - '0') / nb[1]);
+		nb[1] *= 10.0;
 		s++;
 	}
-	return (nb * sign);
+	return (nb[0] * sign);
 }
 
 void		ft_putnbr(int n)

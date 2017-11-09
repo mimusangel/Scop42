@@ -6,20 +6,34 @@
 /*   By: mgallo <mgallo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/08 00:45:27 by mgallo            #+#    #+#             */
-/*   Updated: 2017/11/09 17:17:39 by mgallo           ###   ########.fr       */
+/*   Updated: 2017/11/09 19:38:22 by mgallo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "scop.h"
 
-void		scop_shaders_load(t_scop *scop)
+void		scop_shaders_init(t_scop *scop)
 {
 	scop->program_shader = 0;
-	scop->shader_frag = scop_file_content("sample.frag");
-	scop->shader_vert = scop_file_content("sample.vert");
+	scop->shader_frag = NULL;
+	scop->shader_vert = NULL;
+	scop->projection = NULL;
+	scop->view = NULL;
+	scop->model = NULL;
+}
+
+int			scop_shaders_load(t_scop *scop)
+{
+	scop->shader_frag = scop_file_content("scop.frag");
+	if (scop->shader_frag == NULL)
+		return (ft_putlog("File not found! ", "scop.frag"));
+	scop->shader_vert = scop_file_content("scop.vert");
+	if (scop->shader_vert == NULL)
+		return (ft_putlog("File not found! ", "scop.vert"));
 	scop->projection = mat4_perspective(70.0f, 1280.f / 720.f, 0.1f, 1000.0f);
 	scop->view = mat4_identity();
 	scop->model = mat4_identity();
+	return (1);
 }
 
 void		scop_shaders_update(t_scop *scop)
@@ -44,12 +58,12 @@ void		scop_shaders_update(t_scop *scop)
 	rotate += 0.5f;
 }
 
-void		scop_shaders_build(t_scop *scop)
+int		scop_shaders_build(t_scop *scop)
 {
 	scop->program_shader = load_shaders(scop->shader_vert, scop->shader_frag);
-	uniform_mat4(scop->program_shader, "projection", scop->projection);
-	uniform_mat4(scop->program_shader, "model", scop->model);
-	uniform_mat4(scop->program_shader, "view", scop->view);
+	if (scop->program_shader <= 0)
+		return (ft_putlog("Shader not Loaded! ", ""));
+	return (1);
 }
 
 void		scop_shaders_unload(t_scop *scop)

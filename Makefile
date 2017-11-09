@@ -4,10 +4,11 @@ OBJ_DIR = obj
 FILES = scop.c \
 	log.c \
 	str.c str2.c number.c \
-	file.c obj.c parser.c \
+	file.c obj.c parser.c mesh.c \
 	shaders.c mat4.c rotate.c \
 	scop_shaders.c \
-	array.c
+	array.c \
+	update.c
 
 SRCS = $(addprefix $(SRC_DIR)/, $(FILES))
 OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
