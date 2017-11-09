@@ -6,7 +6,7 @@
 /*   By: mgallo <mgallo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 21:15:53 by mgallo            #+#    #+#             */
-/*   Updated: 2017/11/09 19:42:27 by mgallo           ###   ########.fr       */
+/*   Updated: 2017/11/09 21:40:25 by mgallo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ typedef struct	s_obj
 	GLfloat		cy;
 	GLfloat		cz;
 	t_vec3		pos;
+	t_vec3		rot;
 	t_mesh		mesh;
 }				t_obj;
 
@@ -76,6 +77,9 @@ typedef struct	s_scop
 	GLfloat		*view;
 	GLfloat		*model;
 	t_obj		obj;
+	int			auto_rotate;
+	float		rotate_speed;
+	float		texture_mode;
 }				t_scop;
 
 /*
@@ -123,6 +127,7 @@ void			mesh_delete(t_scop *scop);
 /*
 ** shader.c
 */
+void			uniform_float(GLuint program, GLchar *name, GLfloat value);
 void			uniform_mat4(GLuint program, GLchar *name, GLfloat *mat);
 GLuint			load_shaders(const GLchar *v_src, const GLchar *f_src);
 void			scop_shaders_update(t_scop *scop);

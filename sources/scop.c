@@ -6,20 +6,11 @@
 /*   By: mgallo <mgallo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 21:15:50 by mgallo            #+#    #+#             */
-/*   Updated: 2017/11/09 19:42:39 by mgallo           ###   ########.fr       */
+/*   Updated: 2017/11/09 21:49:39 by mgallo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "scop.h"
-
-static void		scop_info(void)
-{
-	ft_putlog("Vendor: ", (char *)glGetString(GL_VENDOR));
-	ft_putlog("Renderer: ", (char *)glGetString(GL_RENDERER));
-	ft_putlog("GL Version: ", (char *)glGetString(GL_VERSION));
-	ft_putlog("GLSL Version: ",
-		(char *)glGetString(GL_SHADING_LANGUAGE_VERSION));
-}
 
 static int		scop_load(t_scop *scop)
 {
@@ -88,7 +79,7 @@ int				main(int ac, char **av)
 	if (ac < 2)
 	{
 		ft_putstr("Usage: ");
-		ft_putlog(av[0], " <file.obj>");
+		ft_putlog(av[0], " <file.obj> [image.bmp]");
 		return (0);
 	}
 	scop_init_obj(&scop);

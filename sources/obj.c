@@ -6,7 +6,7 @@
 /*   By: mgallo <mgallo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/07 22:06:17 by mgallo            #+#    #+#             */
-/*   Updated: 2017/11/09 19:25:53 by mgallo           ###   ########.fr       */
+/*   Updated: 2017/11/09 21:13:07 by mgallo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,9 @@ void			scop_init_obj(t_scop *scop)
 	scop->obj.pos.x = 0.f;
 	scop->obj.pos.y = 0.f;
 	scop->obj.pos.z = 6.f;
+	scop->obj.rot.x = 0.f;
+	scop->obj.rot.y = 0.f;
+	scop->obj.rot.z = 0.f;
 	scop->obj.mesh.vao = 0;
 	scop->obj.mesh.vertexbuffer = 0;
 	scop->obj.mesh.colorbuffer = 0;

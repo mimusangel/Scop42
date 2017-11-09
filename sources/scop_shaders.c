@@ -6,7 +6,7 @@
 /*   By: mgallo <mgallo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/08 00:45:27 by mgallo            #+#    #+#             */
-/*   Updated: 2017/11/09 19:54:41 by mgallo           ###   ########.fr       */
+/*   Updated: 2017/11/09 21:41:13 by mgallo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@ void		scop_shaders_init(t_scop *scop)
 	scop->projection = NULL;
 	scop->view = NULL;
 	scop->model = NULL;
+	scop->rotate_speed = 0.5f;
+	scop->auto_rotate = 1;
+	scop->texture_mode = 0.f;
 }
 
 int			scop_shaders_load(t_scop *scop)
@@ -38,12 +41,11 @@ int			scop_shaders_load(t_scop *scop)
 
 void		scop_shaders_update(t_scop *scop)
 {
-	static float	rotate = 0;
 	GLfloat			*tmp[4];
 
 	free(scop->model);
 	tmp[0] = mat4_translate(scop->obj.pos.x, scop->obj.pos.y, scop->obj.pos.z);
-	tmp[1] = mat4_rotate(0, rotate, 0);
+	tmp[1] = mat4_rotate(scop->obj.rot.x, scop->obj.rot.y, scop->obj.rot.z);
 	tmp[2] = mat4_translate(-scop->obj.cx, -scop->obj.cy, -scop->obj.cz);
 	tmp[3] = mat4_multiplie(tmp[1], tmp[2]);
 	scop->model = mat4_multiplie(tmp[0], tmp[3]);
@@ -55,7 +57,13 @@ void		scop_shaders_update(t_scop *scop)
 	uniform_mat4(scop->program_shader, "projection", scop->projection);
 	uniform_mat4(scop->program_shader, "model", scop->model);
 	uniform_mat4(scop->program_shader, "view", scop->view);
-	rotate += 0.5f;
+	uniform_float(scop->program_shader, "tMode", scop->texture_mode);
+	if (scop->auto_rotate)
+		scop->obj.rot.y += scop->rotate_speed;
+	if (scop->obj.rot.y > 360.f)
+		scop->obj.rot.y = scop->obj.rot.y - 360.f;
+	if (scop->obj.rot.y < -360.f)
+		scop->obj.rot.y = scop->obj.rot.y + 360.f;
 }
 
 int			scop_shaders_build(t_scop *scop)
