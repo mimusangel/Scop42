@@ -6,7 +6,7 @@
 /*   By: mgallo <mgallo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/08 00:45:27 by mgallo            #+#    #+#             */
-/*   Updated: 2017/11/09 19:38:22 by mgallo           ###   ########.fr       */
+/*   Updated: 2017/11/09 19:54:41 by mgallo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void		scop_shaders_update(t_scop *scop)
 	rotate += 0.5f;
 }
 
-int		scop_shaders_build(t_scop *scop)
+int			scop_shaders_build(t_scop *scop)
 {
 	scop->program_shader = load_shaders(scop->shader_vert, scop->shader_frag);
 	if (scop->program_shader <= 0)

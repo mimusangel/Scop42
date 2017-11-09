@@ -6,13 +6,13 @@
 /*   By: mgallo <mgallo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/09 17:49:03 by mgallo            #+#    #+#             */
-/*   Updated: 2017/11/09 19:45:17 by mgallo           ###   ########.fr       */
+/*   Updated: 2017/11/09 19:55:33 by mgallo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "scop.h"
 
-int			mesh_generate(t_scop *scop)
+int				mesh_generate(t_scop *scop)
 {
 	glGenVertexArrays(1, &(scop->obj.mesh.vao));
 	if (!scop->obj.mesh.vao)
