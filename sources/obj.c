@@ -6,7 +6,7 @@
 /*   By: mgallo <mgallo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/07 22:06:17 by mgallo            #+#    #+#             */
-/*   Updated: 2017/11/08 08:18:32 by mgallo           ###   ########.fr       */
+/*   Updated: 2017/11/09 17:19:26 by mgallo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,54 +30,33 @@ static size_t	scop_obj_count_arg(char *line)
 	return (i);
 }
 
-static void		scop_obj_cline(t_scop *scop, char *line)
+static void		scop_obj_count(t_scop *scop, t_array *arr)
 {
 	size_t	i;
-
-	if (!line || !*line)
-		return ;
-	if (ft_strstart(line, "v "))
-		scop->obj.vcount += 1;
-	if (ft_strstart(line, "vt "))
-		scop->obj.vtcount += 1;
-	if (ft_strstart(line, "vn "))
-		scop->obj.vncount += 1;
-	if (ft_strstart(line, "f "))
-	{
-		if ((i = scop_obj_count_arg(line + 2)) > 0)
-			scop->obj.tcount += i - 2;
-	}
-}
-
-static void		scop_obj_count(t_scop *scop, char *file_content)
-{
+	size_t	f;
 	char	*line;
-	size_t	i;
-	size_t	size;
-	size_t	len;
 
-	size = 0;
-	len = ft_strlen(file_content);
-	while (size < len)
+	i = -1;
+	while (++i < arr->len)
 	{
-		while (file_content[size] == '\n')
-			size += 1;
-		if ((i = ft_strchr(file_content + size, '\n')) > 0)
+		line = arr->data[i];
+		if (ft_strstart(line, "v "))
+			scop->obj.vcount += 1;
+		if (ft_strstart(line, "vt "))
+			scop->obj.vtcount += 1;
+		if (ft_strstart(line, "vn "))
+			scop->obj.vncount += 1;
+		if (ft_strstart(line, "f "))
 		{
-			line = ft_strsub(file_content + size, 0, i);
-			size += i + 1;
+			f = scop_obj_count_arg(line + 2);
+			if (f == 3 || f == 4)
+				scop->obj.tcount += f - 2;
 		}
-		scop_obj_cline(scop, line);
-		if (line)
-			free(line);
-		line = NULL;
 	}
 }
 
-int				scop_load_obj(t_scop *scop, char *path)
+static void		scop_init_obj(t_scop *scop)
 {
-	char	*file_content;
-
 	scop->obj.vcount = 0;
 	scop->obj.vtcount = 0;
 	scop->obj.vncount = 0;
@@ -85,15 +64,32 @@ int				scop_load_obj(t_scop *scop, char *path)
 	scop->obj.v = NULL;
 	scop->obj.vt = NULL;
 	scop->obj.vn = NULL;
+	scop->obj.cx = 0.f;
+	scop->obj.cy = 0.f;
+	scop->obj.cz = 0.f;
+	scop->obj.pos.x = 0.f;
+	scop->obj.pos.y = 0.f;
+	scop->obj.pos.z = 6.f;
+}
+
+int				scop_load_obj(t_scop *scop, char *path)
+{
+	char	*file_content;
+	t_array	*array_file;
+
+	scop_init_obj(scop);
 	file_content = scop_file_content(path);
-	scop_obj_count(scop, file_content);
-	// scop->obj.v = (GLfloat *)malloc(sizeof(GLfloat) * scop->obj.vcount * 3);
-	// scop->obj.vpos = (GLfloat *)malloc(sizeof(GLfloat) * scop->obj.tcount * 9);
-	// scop->obj.color = (GLfloat *)malloc(sizeof(GLfloat) * scop->obj.tcount * 9);
-	// scop_obj_parser(scop, file_content);
-	scop_obj_log(scop);
+	array_file = array_bystr(file_content, '\n', 1);
 	if (file_content)
 		free(file_content);
+	scop_obj_count(scop, array_file);
+	scop->obj.v = (GLfloat *)malloc(sizeof(GLfloat) * scop->obj.vcount * 3);
+	scop->obj.vpos = (GLfloat *)malloc(sizeof(GLfloat) * scop->obj.tcount * 9);
+	scop->obj.color = (GLfloat *)malloc(sizeof(GLfloat) * scop->obj.tcount * 9);
+	scop_obj_parser(scop, array_file);
+	scop_obj_log(scop);
+	if (array_file)
+		array_free(&array_file);
 	return (0);
 }
 

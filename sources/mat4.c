@@ -6,7 +6,7 @@
 /*   By: mgallo <mgallo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/08 00:13:37 by mgallo            #+#    #+#             */
-/*   Updated: 2017/11/08 01:17:27 by mgallo           ###   ########.fr       */
+/*   Updated: 2017/11/09 15:50:06 by mgallo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,9 @@ GLfloat		*mat4_perspective(float fov, float asp, float near, float far)
 	t = 1.0f / tanf(SCOP_TORADIANS(fov / 2.0f));
 	mat[0] = t / asp;
 	mat[5] = t;
-	mat[10] = -((far + near) / (far - near));
+	mat[10] = (-near - far) / (near - far);
 	mat[11] = 1.0f;
-	mat[14] = ((2.f * far * near) / (far - near));
+	mat[14] = 2.0f * far * near / (near - far);
 	return (mat);
 }
 

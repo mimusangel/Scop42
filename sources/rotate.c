@@ -6,7 +6,7 @@
 /*   By: mgallo <mgallo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/08 05:34:34 by mgallo            #+#    #+#             */
-/*   Updated: 2017/11/08 06:17:24 by mgallo           ###   ########.fr       */
+/*   Updated: 2017/11/09 17:23:09 by mgallo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,29 +15,27 @@
 GLfloat		*mat4_axisangle(GLfloat angle, GLfloat x, GLfloat y, GLfloat z)
 {
 	GLfloat		*m;
-	GLfloat		c;
-	GLfloat		s;
-	GLfloat		t;
-	GLfloat		tmp[2];
+	GLfloat		cs[2];
+	GLfloat		tmp[3];
 
 	if (!(m = mat4_identity()))
 		return (NULL);
-	c = (GLfloat)cosf(SCOP_TORADIANS(angle));
-	s = (GLfloat)sinf(SCOP_TORADIANS(angle));
-	t = 1.0f - c;
-	m[0] = c + x * x * t;
-	m[5] = c + y * y * t;
-	m[10] = c + z * z * t;
-	tmp[0] = x * y * t;
-	tmp[1] = z * s;
+	cs[0] = (GLfloat)cosf(SCOP_TORADIANS(angle));
+	cs[1] = (GLfloat)sinf(SCOP_TORADIANS(angle));
+	tmp[2] = 1.0f - cs[0];
+	m[0] = cs[0] + x * x * tmp[2];
+	m[5] = cs[0] + y * y * tmp[2];
+	m[10] = cs[0] + z * z * tmp[2];
+	tmp[0] = x * y * tmp[2];
+	tmp[1] = z * cs[1];
 	m[1] = tmp[0] - tmp[1];
 	m[4] = tmp[0] + tmp[1];
-	tmp[0] = x * z * t;
-	tmp[1] = y * s;
+	tmp[0] = x * z * tmp[2];
+	tmp[1] = y * cs[1];
 	m[2] = tmp[0] + tmp[1];
 	m[8] = tmp[0] - tmp[1];
-	tmp[0] = y * z * t;
-	tmp[1] = x * s;
+	tmp[0] = y * z * tmp[2];
+	tmp[1] = x * cs[1];
 	m[6] = tmp[0] - tmp[1];
 	m[9] = tmp[0] + tmp[1];
 	return (m);

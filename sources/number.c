@@ -6,7 +6,7 @@
 /*   By: mgallo <mgallo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/08 03:23:03 by mgallo            #+#    #+#             */
-/*   Updated: 2017/11/08 06:02:36 by mgallo           ###   ########.fr       */
+/*   Updated: 2017/11/09 14:48:36 by mgallo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int			ft_atoi(const char *s)
 		sign = -1;
 	if (*s == '-' || *s == '+')
 		s++;
-	while (*s >= '0' && *s <= '9')
+	while (*s && *s >= '0' && *s <= '9')
 	{
 		nb = nb * 10 + (*s - '0');
 		s++;
@@ -36,21 +36,31 @@ int			ft_atoi(const char *s)
 double		ft_atof(const char *s)
 {
 	double	nb;
-	double	dec;
 	double	mult;
+	int		sign;
 
-	nb = (double)ft_atoi(s);
-	while (*s || *s != '.')
+	nb = 0;
+	while (*s == ' ' || *s == '\t')
 		s++;
-	dec = 0;
-	mult = 1;
-	while (*s >= '0' && *s <= '9')
+	sign = (*s == '-') ? -1 : 1;
+	if (*s == '-' || *s == '+')
+		s++;
+	while (*s && *s >= '0' && *s <= '9')
 	{
-		dec = dec * 10 + (*s - '0');
-		mult = mult * 10;
+		nb = nb * 10 + (*s - '0');
 		s++;
 	}
-	return (nb + (dec / mult));
+	if (*s != '.')
+		return (nb * sign);
+	s++;
+	mult = 10.0;
+	while (*s && *s >= '0' && *s <= '9')
+	{
+		nb = nb + ((*s - '0') / mult);
+		mult *= 10.0;
+		s++;
+	}
+	return (nb * sign);
 }
 
 void		ft_putnbr(int n)

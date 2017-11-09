@@ -6,7 +6,7 @@
 /*   By: mgallo <mgallo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/07 23:13:05 by mgallo            #+#    #+#             */
-/*   Updated: 2017/11/08 00:38:03 by mgallo           ###   ########.fr       */
+/*   Updated: 2017/11/09 17:18:09 by mgallo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ static int	test_shaders(GLuint id)
 	GLint	log_lenght;
 	GLchar	*log_info;
 	GLint	shader_type;
+
 	glGetShaderiv(id, GL_SHADER_TYPE, &shader_type);
 	glGetShaderiv(id, GL_INFO_LOG_LENGTH, &log_lenght);
 	if (log_lenght > 0)
@@ -72,7 +73,7 @@ GLuint		load_shaders(const GLchar *v_src, const GLchar *f_src)
 	glCompileShader(vertex_id);
 	if (!test_shaders(vertex_id))
 		return (0);
-	glShaderSource(fragment_id, 1, &f_src , NULL);
+	glShaderSource(fragment_id, 1, &f_src, NULL);
 	glCompileShader(fragment_id);
 	if (!test_shaders(fragment_id))
 		return (0);

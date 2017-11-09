@@ -6,7 +6,7 @@
 /*   By: mgallo <mgallo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 21:15:50 by mgallo            #+#    #+#             */
-/*   Updated: 2017/11/09 14:00:55 by mgallo           ###   ########.fr       */
+/*   Updated: 2017/11/09 17:13:05 by mgallo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,23 +50,6 @@ static int		scop_load(t_scop *scop)
 
 static void		scop_loop(t_scop *scop)
 {
-	static const GLfloat g_vertex_buffer_data[] = {
-		-0.5f, -0.5f, 0.0f,
-		0.5f, -0.5f, 0.0f,
-		0.5f,  0.5f, 0.0f,
-		0.5f,  0.5f, 0.0f,
-		-0.5f, 0.5f, 0.0f,
-		-0.5f, -0.5f, 0.0f,
-	};
-	static const GLfloat g_color_buffer_data[] = {
-	   1.0f, 0.0f, 0.0f,
-   	   1.0f, 0.0f, 0.0f,
-   	   1.0f, 0.0f, 0.0f,
-   	   0.0f, 1.0f, 0.0f,
-  	   0.0f, 1.0f, 0.0f,
-  	   0.0f, 1.0f, 0.0f,
-	};
-	static const GLuint buffer_count = 6;
 	GLuint vao;
 	glGenVertexArrays(1, &vao);
 	glBindVertexArray(vao);
@@ -74,14 +57,14 @@ static void		scop_loop(t_scop *scop)
 	GLuint vertexbuffer;
 	glGenBuffers(1, &vertexbuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 3 * buffer_count, g_vertex_buffer_data, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 9 * scop->obj.tcount, scop->obj.vpos, GL_STATIC_DRAW);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
 	glEnableVertexAttribArray(0);
 
 	GLuint colorbuffer;
 	glGenBuffers(1, &colorbuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, colorbuffer);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 3 * buffer_count, g_color_buffer_data, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 9 * scop->obj.tcount, scop->obj.color, GL_STATIC_DRAW);
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
 	glEnableVertexAttribArray(1);
 
@@ -89,7 +72,8 @@ static void		scop_loop(t_scop *scop)
 	glBindVertexArray(0);
 
 	glEnable(GL_DEPTH_TEST);
-	glDepthFunc(GL_LESS);
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_FRONT);
 	while (scop->run)
 	{
 		if (glfwWindowShouldClose(scop->win)
@@ -98,14 +82,25 @@ static void		scop_loop(t_scop *scop)
 		else
 		{
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			if (glfwGetKey(scop->win, GLFW_KEY_W) == GLFW_PRESS)
+				scop->obj.pos.z += 0.05f;
+			if (glfwGetKey(scop->win, GLFW_KEY_S) == GLFW_PRESS)
+				scop->obj.pos.z -= 0.05f;
+			if (glfwGetKey(scop->win, GLFW_KEY_A) == GLFW_PRESS
+				|| glfwGetKey(scop->win, GLFW_KEY_LEFT) == GLFW_PRESS)
+				scop->obj.pos.x -= 0.05f;
+			if (glfwGetKey(scop->win, GLFW_KEY_D) == GLFW_PRESS
+				|| glfwGetKey(scop->win, GLFW_KEY_RIGHT) == GLFW_PRESS)
+				scop->obj.pos.x += 0.05f;
+			if (glfwGetKey(scop->win, GLFW_KEY_UP) == GLFW_PRESS)
+				scop->obj.pos.y += 0.05f;
+			if (glfwGetKey(scop->win, GLFW_KEY_DOWN) == GLFW_PRESS)
+				scop->obj.pos.y -= 0.05f;
+			scop_shaders_update(scop);
 
-			glUseProgram(scop->program_shader);
-			uniform_mat4(scop->program_shader, "projection", scop->projection);
-			uniform_mat4(scop->program_shader, "model", scop->model);
-			uniform_mat4(scop->program_shader, "view", scop->view);
 			// TEST
 			glBindVertexArray(vao);
-			glDrawArrays(GL_TRIANGLES, 0, buffer_count);
+			glDrawArrays(GL_TRIANGLES, 0, scop->obj.tcount * 3);
 			glBindVertexArray(0);
 
 			glfwSwapBuffers(scop->win);
@@ -123,32 +118,22 @@ static void		scop_unload(t_scop *scop)
 
 int		main(int ac, char **av)
 {
-	t_array	*arr;
-	arr = array_bystr("test trop d'espace" , ' ', 1);
-	if (arr)
+	t_scop	scop;
+
+	if (ac < 2)
 	{
-		printf("%zu\n", arr->len);
-		size_t	i = -1;
-		while (++i < arr->len)
-			printf("%s\n", arr->data[i]);
-		array_free(&arr);
+		ft_putstr("Usage: ");
+		ft_putstr(av[0]);
+		ft_putstr(" <file.obj>\n");
+		return (0);
 	}
-	// t_scop	scop;
-	//
-	// if (ac < 2)
-	// {
-	// 	ft_putstr("Usage: ");
-	// 	ft_putstr(av[0]);
-	// 	ft_putstr(" <file.obj>\n");
-	// 	return (0);
-	// }
-	// scop_load_obj(&scop, av[1]);
-	// scop_shaders_load(&scop);
-	// if ((scop.run = scop_load(&scop)) > 0)
-	// {
-	// 	scop_shaders_build(&scop);
-	// 	scop_loop(&scop);
-	// }
-	// scop_unload(&scop);
-	// return (0);
+	scop_load_obj(&scop, av[1]);
+	scop_shaders_load(&scop);
+	if ((scop.run = scop_load(&scop)) > 0)
+	{
+		scop_shaders_build(&scop);
+		scop_loop(&scop);
+	}
+	scop_unload(&scop);
+	return (0);
 }

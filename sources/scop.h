@@ -6,7 +6,7 @@
 /*   By: mgallo <mgallo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 21:15:53 by mgallo            #+#    #+#             */
-/*   Updated: 2017/11/09 13:45:10 by mgallo           ###   ########.fr       */
+/*   Updated: 2017/11/09 17:05:56 by mgallo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,13 @@
 #  define BUFF_SIZE 2048
 # endif
 
+typedef	struct	s_vec3
+{
+	GLfloat		x;
+	GLfloat		y;
+	GLfloat		z;
+}				t_vec3;
+
 typedef struct	s_array
 {
 	char		**data;
@@ -44,6 +51,10 @@ typedef struct	s_obj
 	size_t		tcount;
 	GLfloat		*vpos;
 	GLfloat		*color;
+	GLfloat		cx;
+	GLfloat		cy;
+	GLfloat		cz;
+	t_vec3		pos;
 }				t_obj;
 
 typedef struct	s_scop
@@ -80,10 +91,11 @@ size_t		get_str_line(char *str, char **line);
 int			scop_load_obj(t_scop *scop, char *path);
 void		scop_unload_obj(t_scop *scop);
 // parser.c
-void		scop_obj_parser(t_scop *scop, char *file_content);
+void		scop_obj_parser(t_scop *scop, t_array *arr);
 // Shader.c
 void		uniform_mat4(GLuint program, GLchar *name, GLfloat *mat);
 GLuint		load_shaders(const GLchar *v_src, const GLchar *f_src);
+void		scop_shaders_update(t_scop *scop);
 // mat4.c
 GLfloat		*mat4_create(void);
 GLfloat		*mat4_identity(void);
