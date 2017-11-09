@@ -6,7 +6,7 @@
 /*   By: mgallo <mgallo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/09 18:34:15 by mgallo            #+#    #+#             */
-/*   Updated: 2017/11/09 21:46:56 by mgallo           ###   ########.fr       */
+/*   Updated: 2017/11/09 22:53:08 by mgallo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,26 @@ void			scop_texture_mode(t_scop *scop)
 		mode = 0;
 }
 
+void			scop_cullface_mode(t_scop *scop)
+{
+	if (glfwGetKey(scop->win, GLFW_KEY_1) == GLFW_PRESS)
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	if (glfwGetKey(scop->win, GLFW_KEY_2) == GLFW_PRESS)
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	if (glfwGetKey(scop->win, GLFW_KEY_8) == GLFW_PRESS)
+	{
+		glEnable(GL_CULL_FACE);
+		glCullFace(GL_FRONT);
+	}
+	if (glfwGetKey(scop->win, GLFW_KEY_9) == GLFW_PRESS)
+	{
+		glEnable(GL_CULL_FACE);
+		glCullFace(GL_BACK);
+	}
+	if (glfwGetKey(scop->win, GLFW_KEY_0) == GLFW_PRESS)
+		glDisable(GL_CULL_FACE);
+}
+
 void			scop_update(t_scop *scop)
 {
 	if (glfwGetKey(scop->win, GLFW_KEY_W) == GLFW_PRESS)
@@ -74,10 +94,7 @@ void			scop_update(t_scop *scop)
 		scop->obj.pos.y += 0.05f;
 	if (glfwGetKey(scop->win, GLFW_KEY_DOWN) == GLFW_PRESS)
 		scop->obj.pos.y -= 0.05f;
-	if (glfwGetKey(scop->win, GLFW_KEY_1) == GLFW_PRESS)
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-	if (glfwGetKey(scop->win, GLFW_KEY_2) == GLFW_PRESS)
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	scop_rotate_key(scop);
 	scop_texture_mode(scop);
+	scop_cullface_mode(scop);
 }

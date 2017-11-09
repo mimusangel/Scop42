@@ -6,7 +6,7 @@
 /*   By: mgallo <mgallo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/07 23:13:05 by mgallo            #+#    #+#             */
-/*   Updated: 2017/11/09 21:40:30 by mgallo           ###   ########.fr       */
+/*   Updated: 2017/11/09 22:53:47 by mgallo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ void		uniform_mat4(GLuint program, GLchar *name, GLfloat *mat)
 	id = glGetUniformLocation(program, name);
 	glUniformMatrix4fv(id, 1, GL_FALSE, mat);
 }
+
 void		uniform_float(GLuint program, GLchar *name, GLfloat value)
 {
 	GLint id;
