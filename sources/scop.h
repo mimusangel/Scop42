@@ -6,7 +6,7 @@
 /*   By: mgallo <mgallo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 21:15:53 by mgallo            #+#    #+#             */
-/*   Updated: 2017/11/10 09:24:39 by mgallo           ###   ########.fr       */
+/*   Updated: 2017/11/10 09:57:41 by mgallo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,13 @@
 
 # ifndef BUFF_SIZE
 #  define BUFF_SIZE 2048
+# endif
+
+# ifndef MAX
+#  define MAX(a,b)	((a) > (b) ? a : b)
+# endif
+# ifndef MIN
+#  define MIN(a,b)	((a) < (b) ? a : b)
 # endif
 
 # define VBO_POS 0
@@ -66,6 +73,8 @@ typedef struct	s_obj
 	GLfloat		cz;
 	t_vec3		pos;
 	t_vec3		rot;
+	t_vec3		min;
+	t_vec3		max;
 	t_mesh		mesh;
 }				t_obj;
 
@@ -86,6 +95,7 @@ typedef struct	s_scop
 	int			bmp_loaded;
 	t_bmp		bmp;
 	GLuint		texture;
+	int			calc_normal_type;
 }				t_scop;
 
 /*
@@ -188,5 +198,13 @@ int				texture_generate(t_scop	*scop);
 void			texture_bind(t_scop *scop);
 void			texture_unbind(void);
 void			texture_unload(t_scop *scop);
+/*
+** args.c
+*/
+void			scop_args(t_scop *scop, int ac, char **av);
+/*
+** generate.c
+*/
 void			texture_generate_buffer(t_scop *scop);
+
 #endif

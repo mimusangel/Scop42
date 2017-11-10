@@ -6,7 +6,7 @@
 /*   By: mgallo <mgallo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 21:15:50 by mgallo            #+#    #+#             */
-/*   Updated: 2017/11/10 09:30:50 by mgallo           ###   ########.fr       */
+/*   Updated: 2017/11/10 09:36:09 by mgallo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,9 +104,10 @@ int				main(int ac, char **av)
 	if (ac < 2)
 	{
 		ft_putstr("Usage: ");
-		ft_putlog(av[0], " <file.obj> [image.bmp]");
+		ft_putlog(av[0], " <file.obj> [image.bmp] [-sphere/-flat]");
 		return (0);
 	}
+	scop_args(&scop, ac, av);
 	scop_init_obj(&scop);
 	scop_shaders_init(&scop);
 	if (!ft_strend(av[1], ".obj"))

@@ -9,7 +9,8 @@ FILES = scop.c \
 	scop_shaders.c uniform.c \
 	array.c \
 	update.c \
-	bmp.c texture.c
+	bmp.c texture.c \
+	args.c generate.c
 
 SRCS = $(addprefix $(SRC_DIR)/, $(FILES))
 OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)

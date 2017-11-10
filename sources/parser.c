@@ -6,7 +6,7 @@
 /*   By: mgallo <mgallo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/08 06:56:36 by mgallo            #+#    #+#             */
-/*   Updated: 2017/11/10 09:21:00 by mgallo           ###   ########.fr       */
+/*   Updated: 2017/11/10 09:51:37 by mgallo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,12 +64,20 @@ static void	scop_obj_center(t_scop *scop)
 	scop->obj.cx = 0;
 	scop->obj.cy = 0;
 	scop->obj.cz = 0;
+	scop->obj.min = (t_vec3){scop->obj.v[0], scop->obj.v[1], scop->obj.v[2]};
+	scop->obj.max = (t_vec3){scop->obj.v[0], scop->obj.v[1], scop->obj.v[2]};
 	i = -1;
 	while (++i < scop->obj.vcount)
 	{
 		scop->obj.cx += scop->obj.v[i * 3];
 		scop->obj.cy += scop->obj.v[i * 3 + 1];
 		scop->obj.cz += scop->obj.v[i * 3 + 2];
+		scop->obj.min.x = MIN(scop->obj.min.x, scop->obj.v[i * 3]);
+		scop->obj.min.y = MIN(scop->obj.min.y, scop->obj.v[i * 3 + 1]);
+		scop->obj.min.z = MIN(scop->obj.min.z, scop->obj.v[i * 3 + 1]);
+		scop->obj.max.x = MAX(scop->obj.max.x, scop->obj.v[i * 3]);
+		scop->obj.max.y = MAX(scop->obj.max.y, scop->obj.v[i * 3 + 1]);
+		scop->obj.max.z = MAX(scop->obj.max.z, scop->obj.v[i * 3 + 1]);
 	}
 	scop->obj.cx /= (GLfloat)scop->obj.vcount;
 	scop->obj.cy /= (GLfloat)scop->obj.vcount;
