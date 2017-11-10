@@ -6,7 +6,7 @@
 /*   By: mgallo <mgallo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 21:15:50 by mgallo            #+#    #+#             */
-/*   Updated: 2017/11/10 07:23:54 by mgallo           ###   ########.fr       */
+/*   Updated: 2017/11/10 08:46:45 by mgallo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,20 +41,21 @@ static int		scop_load(t_scop *scop)
 
 static void		scop_loop(t_scop *scop)
 {
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_FRONT);
 	if (!scop_shaders_build(scop))
 		return ;
 	if (!mesh_begin(scop))
 		return ;
 	mesh_add(&(scop->obj.mesh), VBO_POS, 3 * scop->obj.tcount, scop->obj.buff);
+	texture_generate_buffer(scop);
+	mesh_add(&(scop->obj.mesh), VBO_TEXTURE, 3 * scop->obj.tcount, scop->obj.buff);
 	scop_obj_color(scop);
 	mesh_add(&(scop->obj.mesh), VBO_COLOR, 3 * scop->obj.tcount, scop->obj.buff);
 	mesh_end(scop);
 	if (!texture_generate(scop) && scop->bmp_loaded)
 		return ;
-	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_CULL_FACE);
-	glCullFace(GL_FRONT);
-	glEnable(GL_TEXTURE_2D);
 	while (scop->run)
 	{
 		if (glfwWindowShouldClose(scop->win)
@@ -65,10 +66,12 @@ static void		scop_loop(t_scop *scop)
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			scop_update(scop);
 			if (scop->bmp_loaded)
+			{
+				glActiveTexture(GL_TEXTURE0);
 				texture_bind(scop);
+				uniform_int(scop->program_shader, "uTexture", 0);
+			}
 			mesh_render(scop);
-			if (scop->bmp_loaded)
-				texture_unbind();
 			glfwSwapBuffers(scop->win);
 			glfwPollEvents();
 		}

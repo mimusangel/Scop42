@@ -6,7 +6,7 @@
 /*   By: mgallo <mgallo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 21:15:53 by mgallo            #+#    #+#             */
-/*   Updated: 2017/11/10 05:20:35 by mgallo           ###   ########.fr       */
+/*   Updated: 2017/11/10 07:43:37 by mgallo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@
 # define VBO_TEXTURE 2
 # define VBO_NORMAL 3
 
-# define SCOP_MAX_VBO 2
+# define SCOP_MAX_VBO 3
 
 typedef	struct	s_vec3
 {
@@ -137,6 +137,7 @@ void			mesh_delete(t_scop *scop);
 /*
 ** shader.c
 */
+void			uniform_int(GLuint program, GLchar *name, GLint value);
 void			uniform_float(GLuint program, GLchar *name, GLfloat value);
 void			uniform_mat4(GLuint program, GLchar *name, GLfloat *mat);
 GLuint			load_shaders(const GLchar *v_src, const GLchar *f_src);
@@ -185,4 +186,5 @@ int				texture_generate(t_scop	*scop);
 void			texture_bind(t_scop *scop);
 void			texture_unbind(void);
 void			texture_unload(t_scop *scop);
+void			texture_generate_buffer(t_scop *scop);
 #endif

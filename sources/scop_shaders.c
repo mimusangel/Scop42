@@ -6,7 +6,7 @@
 /*   By: mgallo <mgallo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/08 00:45:27 by mgallo            #+#    #+#             */
-/*   Updated: 2017/11/09 21:41:13 by mgallo           ###   ########.fr       */
+/*   Updated: 2017/11/10 08:45:46 by mgallo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ void		scop_shaders_update(t_scop *scop)
 	uniform_mat4(scop->program_shader, "model", scop->model);
 	uniform_mat4(scop->program_shader, "view", scop->view);
 	uniform_float(scop->program_shader, "tMode", scop->texture_mode);
+	uniform_int(scop->program_shader, "disableTexture", !scop->bmp_loaded);
+
 	if (scop->auto_rotate)
 		scop->obj.rot.y += scop->rotate_speed;
 	if (scop->obj.rot.y > 360.f)

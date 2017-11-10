@@ -6,16 +6,11 @@
 /*   By: mgallo <mgallo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/08 06:56:36 by mgallo            #+#    #+#             */
-/*   Updated: 2017/11/10 07:15:48 by mgallo           ###   ########.fr       */
+/*   Updated: 2017/11/10 07:35:30 by mgallo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "scop.h"
-
-/*
-** u = X/texture_width
-** v = 1 - Y/texture_height
-*/
 
 static int	scop_obj_tri2(t_scop *scop, int it, int *vali, int offset)
 {

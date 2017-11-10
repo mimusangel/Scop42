@@ -6,7 +6,7 @@
 /*   By: mgallo <mgallo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/07 23:13:05 by mgallo            #+#    #+#             */
-/*   Updated: 2017/11/09 22:53:47 by mgallo           ###   ########.fr       */
+/*   Updated: 2017/11/10 08:53:58 by mgallo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,13 @@ void		uniform_float(GLuint program, GLchar *name, GLfloat value)
 
 	id = glGetUniformLocation(program, name);
 	glUniform1f(id, value);
+}
+void		uniform_int(GLuint program, GLchar *name, GLint value)
+{
+	GLint id;
+
+	id = glGetUniformLocation(program, name);
+	glUniform1i(id, value);
 }
 
 GLuint		load_shaders(const GLchar *v_src, const GLchar *f_src)
