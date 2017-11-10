@@ -8,7 +8,8 @@ FILES = scop.c \
 	shaders.c mat4.c rotate.c \
 	scop_shaders.c \
 	array.c \
-	update.c
+	update.c \
+	bmp.c texture.c
 
 SRCS = $(addprefix $(SRC_DIR)/, $(FILES))
 OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)

@@ -6,7 +6,7 @@
 /*   By: mgallo <mgallo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/09 12:22:38 by mgallo            #+#    #+#             */
-/*   Updated: 2017/11/09 14:00:16 by mgallo           ###   ########.fr       */
+/*   Updated: 2017/11/10 06:20:57 by mgallo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ static size_t	array_count_work(char *str, char sep)
 	work = 0;
 	while (*str)
 	{
-		if (*str == sep)
+		if (*str == sep || *str == '\r')
 			work = 0;
-		if (*str != sep && !work)
+		if (*str != sep && !work && *str != '\r')
 		{
 			i++;
 			work = 1;
@@ -84,7 +84,13 @@ void			array_free(t_array **arr)
 		return ;
 	i = -1;
 	while (++i < (*arr)->len)
-		free((*arr)->data[i]);
+		if ((*arr)->data[i])
+		{
+			free((*arr)->data[i]);
+			(*arr)->data[i] = NULL;
+		}
+	free((*arr)->data);
+	(*arr)->data = NULL;
 	free(*arr);
 	*arr = NULL;
 }

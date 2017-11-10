@@ -6,7 +6,7 @@
 /*   By: mgallo <mgallo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 21:15:50 by mgallo            #+#    #+#             */
-/*   Updated: 2017/11/09 21:49:39 by mgallo           ###   ########.fr       */
+/*   Updated: 2017/11/10 07:23:54 by mgallo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,18 @@ static void		scop_loop(t_scop *scop)
 {
 	if (!scop_shaders_build(scop))
 		return ;
-	if (!mesh_generate(scop))
+	if (!mesh_begin(scop))
+		return ;
+	mesh_add(&(scop->obj.mesh), VBO_POS, 3 * scop->obj.tcount, scop->obj.buff);
+	scop_obj_color(scop);
+	mesh_add(&(scop->obj.mesh), VBO_COLOR, 3 * scop->obj.tcount, scop->obj.buff);
+	mesh_end(scop);
+	if (!texture_generate(scop) && scop->bmp_loaded)
 		return ;
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_FRONT);
+	glEnable(GL_TEXTURE_2D);
 	while (scop->run)
 	{
 		if (glfwWindowShouldClose(scop->win)
@@ -57,11 +64,17 @@ static void		scop_loop(t_scop *scop)
 		{
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			scop_update(scop);
+			if (scop->bmp_loaded)
+				texture_bind(scop);
 			mesh_render(scop);
+			if (scop->bmp_loaded)
+				texture_unbind();
 			glfwSwapBuffers(scop->win);
 			glfwPollEvents();
 		}
 	}
+	if (scop->bmp_loaded)
+		texture_unload(scop);
 	mesh_delete(scop);
 }
 
@@ -84,19 +97,18 @@ int				main(int ac, char **av)
 	}
 	scop_init_obj(&scop);
 	scop_shaders_init(&scop);
-	if (ft_strend(av[1], ".obj"))
-	{
-		if (scop_load_obj(&scop, av[1]))
-		{
-			if (scop_shaders_load(&scop))
-			{
-				if ((scop.run = scop_load(&scop)) > 0)
-					scop_loop(&scop);
-			}
-		}
-	}
-	else
+	if (!ft_strend(av[1], ".obj"))
 		ft_putstr("File extend isn't valid!");
+	else if (scop_load_obj(&scop, av[1]) && scop_shaders_load(&scop))
+	{
+		scop.bmp_loaded = 0;
+		if (ac > 2)
+			scop.bmp_loaded = bmp_load(&(scop.bmp), av[2]);
+		if (!scop.bmp_loaded)
+			ft_putstr("No texture loaded. Texture mod is disabled\n");
+		if ((scop.run = scop_load(&scop)) > 0)
+			scop_loop(&scop);
+	}
 	scop_unload(&scop);
 	return (0);
 }

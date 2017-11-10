@@ -6,7 +6,7 @@
 /*   By: mgallo <mgallo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 22:44:47 by mgallo            #+#    #+#             */
-/*   Updated: 2017/11/09 19:01:09 by mgallo           ###   ########.fr       */
+/*   Updated: 2017/11/10 04:27:59 by mgallo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,6 @@ void		scop_obj_log(t_scop *scop)
 {
 	ft_putstr("Vertex Count: ");
 	ft_putnbr(scop->obj.vcount);
-	ft_putstr("\nVertex Texture Count: ");
-	ft_putnbr(scop->obj.vtcount);
-	ft_putstr("\nVertex Normal Count: ");
-	ft_putnbr(scop->obj.vncount);
 	ft_putstr("\nTriangle Count: ");
 	ft_putnbr(scop->obj.tcount);
 	ft_putstr("\n");

@@ -6,37 +6,45 @@
 /*   By: mgallo <mgallo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/09 17:49:03 by mgallo            #+#    #+#             */
-/*   Updated: 2017/11/09 19:55:33 by mgallo           ###   ########.fr       */
+/*   Updated: 2017/11/10 05:20:41 by mgallo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "scop.h"
 
-int				mesh_generate(t_scop *scop)
+int				mesh_begin(t_scop *scop)
 {
+	size_t	i;
+
 	glGenVertexArrays(1, &(scop->obj.mesh.vao));
 	if (!scop->obj.mesh.vao)
 		return (ft_putlog("Error generate VAO ID!", ""));
 	glBindVertexArray(scop->obj.mesh.vao);
-	glGenBuffers(1, &(scop->obj.mesh.vertexbuffer));
-	if (!scop->obj.mesh.vertexbuffer)
-		return (ft_putlog("Error generate Position Buffer ID!", ""));
-	glBindBuffer(GL_ARRAY_BUFFER, scop->obj.mesh.vertexbuffer);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 9 * scop->obj.tcount,
-		scop->obj.vpos, GL_STATIC_DRAW);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
-	glEnableVertexAttribArray(0);
-	glGenBuffers(1, &(scop->obj.mesh.colorbuffer));
-	if (!scop->obj.mesh.colorbuffer)
-		return (ft_putlog("Error generate Color Buffer ID!", ""));
-	glBindBuffer(GL_ARRAY_BUFFER, scop->obj.mesh.colorbuffer);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 9 * scop->obj.tcount,
-		scop->obj.color, GL_STATIC_DRAW);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
-	glEnableVertexAttribArray(1);
+	glGenBuffers(SCOP_MAX_VBO, scop->obj.mesh.vbo);
+	i = -1;
+	while (++i < SCOP_MAX_VBO)
+		if (!scop->obj.mesh.vbo[i])
+			return (ft_putlog("Error generate VBO ID!", ""));
+	return (1);
+}
+
+void			mesh_add(t_mesh *mesh, int type, size_t size, GLfloat *data)
+{
+	int		s;
+
+	mesh->size = size;
+	glBindBuffer(GL_ARRAY_BUFFER, mesh->vbo[type]);
+	s = (type == VBO_TEXTURE) ? 2 : 3;
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * s * size, data,
+		GL_STATIC_DRAW);
+	glVertexAttribPointer(type, s, GL_FLOAT, GL_FALSE, 0, (void *)0);
+	glEnableVertexAttribArray(type);
+}
+
+void			mesh_end(t_scop *scop)
+{
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
-	return (1);
 }
 
 void			mesh_render(t_scop *scop)
@@ -49,7 +57,6 @@ void			mesh_render(t_scop *scop)
 
 void			mesh_delete(t_scop *scop)
 {
-	glDeleteBuffers(1, &(scop->obj.mesh.vertexbuffer));
-	glDeleteBuffers(1, &(scop->obj.mesh.colorbuffer));
+	glDeleteBuffers(2, scop->obj.mesh.vbo);
 	glDeleteVertexArrays(1, &(scop->obj.mesh.vao));
 }

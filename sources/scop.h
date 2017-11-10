@@ -6,7 +6,7 @@
 /*   By: mgallo <mgallo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 21:15:53 by mgallo            #+#    #+#             */
-/*   Updated: 2017/11/09 21:40:25 by mgallo           ###   ########.fr       */
+/*   Updated: 2017/11/10 05:20:35 by mgallo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <GL/glew.h>
 # include <GLFW/glfw3.h>
 # include <math.h>
+# include "bmp.h"
 
 # define SCOP_PI 3.14159265359f
 # define SCOP_TORADIANS(x)	(x * 0.0174533f)
@@ -26,6 +27,13 @@
 # ifndef BUFF_SIZE
 #  define BUFF_SIZE 2048
 # endif
+
+# define VBO_POS 0
+# define VBO_COLOR 1
+# define VBO_TEXTURE 2
+# define VBO_NORMAL 3
+
+# define SCOP_MAX_VBO 2
 
 typedef	struct	s_vec3
 {
@@ -43,21 +51,17 @@ typedef struct	s_array
 typedef struct	s_mesh
 {
 	GLuint		vao;
-	GLuint		vertexbuffer;
-	GLuint		colorbuffer;
+	GLuint		vbo[SCOP_MAX_VBO];
+	size_t		size;
 }				t_mesh;
 
 typedef struct	s_obj
 {
 	size_t		vcount;
 	GLfloat		*v;
-	size_t		vtcount;
-	GLfloat		*vt;
-	size_t		vncount;
-	GLfloat		*vn;
 	size_t		tcount;
-	GLfloat		*vpos;
-	GLfloat		*color;
+	GLfloat		*buff;
+	// GLfloat		*color;
 	GLfloat		cx;
 	GLfloat		cy;
 	GLfloat		cz;
@@ -80,6 +84,9 @@ typedef struct	s_scop
 	int			auto_rotate;
 	float		rotate_speed;
 	float		texture_mode;
+	int			bmp_loaded;
+	t_bmp		bmp;
+	GLuint		texture;
 }				t_scop;
 
 /*
@@ -114,6 +121,7 @@ size_t			get_str_line(char *str, char **line);
 void			scop_init_obj(t_scop *scop);
 int				scop_load_obj(t_scop *scop, char *path);
 void			scop_unload_obj(t_scop *scop);
+void			scop_obj_color(t_scop *scop);
 /*
 ** parser.c
 */
@@ -121,7 +129,9 @@ int				scop_obj_parser(t_scop *scop, t_array *arr);
 /*
 ** mesh.c
 */
-int				mesh_generate(t_scop *scop);
+int				mesh_begin(t_scop *scop);
+void			mesh_add(t_mesh *mesh, int type, size_t size, GLfloat *data);
+void			mesh_end(t_scop *scop);
 void			mesh_render(t_scop *scop);
 void			mesh_delete(t_scop *scop);
 /*
@@ -168,4 +178,11 @@ void			array_free(t_array **arr);
 ** update.c
 */
 void			scop_update(t_scop *scop);
+/*
+** texture.c
+*/
+int				texture_generate(t_scop	*scop);
+void			texture_bind(t_scop *scop);
+void			texture_unbind(void);
+void			texture_unload(t_scop *scop);
 #endif
