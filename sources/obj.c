@@ -6,7 +6,7 @@
 /*   By: mgallo <mgallo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/07 22:06:17 by mgallo            #+#    #+#             */
-/*   Updated: 2017/11/10 07:39:28 by mgallo           ###   ########.fr       */
+/*   Updated: 2017/11/10 09:28:10 by mgallo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ static int		scop_obj_count_check(t_scop *scop, t_array *arr)
 	{
 		line = arr->data[i];
 		check = array_bystr(line, ' ', 1);
-		// Check les bug
 		if (ft_strstart(line, "v ") && check->len == 4)
 			scop->obj.vcount += 1;
 		else if (ft_strstart(line, "f ")
@@ -31,6 +30,8 @@ static int		scop_obj_count_check(t_scop *scop, t_array *arr)
 			scop->obj.tcount += check->len - 3;
 		if (ft_strstart(line, "f ") && (check->len < 4 || check->len > 5))
 			ft_putlog("Invalid line! Line: ", line);
+		if (ft_strstart(line, "v ") && check->len != 4)
+			return (ft_putlog("Invalid line! Line: ", line));
 		array_free(&check);
 	}
 	return (1);
@@ -74,12 +75,9 @@ int				scop_load_obj(t_scop *scop, char *path)
 	scop->obj.buff = (GLfloat *)malloc(sizeof(GLfloat) * scop->obj.tcount * 9);
 	if (!scop->obj.buff)
 		return (ft_putlog("Error malloc: ", "buffer"));
-	scop_obj_log(scop);
 	if (!scop_obj_parser(scop, array_file))
 		return (0);
 	free(array_file);
-	// if (array_file)
-	// 	array_free(&array_file);
 	if (scop->obj.v)
 		free(scop->obj.v);
 	return (1);
@@ -89,8 +87,6 @@ void			scop_unload_obj(t_scop *scop)
 {
 	scop->obj.vcount = 0;
 	scop->obj.tcount = 0;
-	// if (scop->obj.v)
-	// 	free(scop->obj.v);
 	if (scop->obj.buff)
 		free(scop->obj.buff);
 }

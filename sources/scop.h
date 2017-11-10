@@ -6,7 +6,7 @@
 /*   By: mgallo <mgallo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 21:15:53 by mgallo            #+#    #+#             */
-/*   Updated: 2017/11/10 07:43:37 by mgallo           ###   ########.fr       */
+/*   Updated: 2017/11/10 09:24:39 by mgallo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ typedef struct	s_obj
 	GLfloat		*v;
 	size_t		tcount;
 	GLfloat		*buff;
-	// GLfloat		*color;
 	GLfloat		cx;
 	GLfloat		cy;
 	GLfloat		cz;
@@ -137,11 +136,14 @@ void			mesh_delete(t_scop *scop);
 /*
 ** shader.c
 */
+GLuint			load_shaders(const GLchar *v_src, const GLchar *f_src);
+void			scop_shaders_update(t_scop *scop);
+/*
+** uniform.c
+*/
 void			uniform_int(GLuint program, GLchar *name, GLint value);
 void			uniform_float(GLuint program, GLchar *name, GLfloat value);
 void			uniform_mat4(GLuint program, GLchar *name, GLfloat *mat);
-GLuint			load_shaders(const GLchar *v_src, const GLchar *f_src);
-void			scop_shaders_update(t_scop *scop);
 /*
 ** mat4.c
 */

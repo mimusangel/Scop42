@@ -6,7 +6,7 @@
 /*   By: mgallo <mgallo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/08 06:56:36 by mgallo            #+#    #+#             */
-/*   Updated: 2017/11/10 07:35:30 by mgallo           ###   ########.fr       */
+/*   Updated: 2017/11/10 09:21:00 by mgallo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ static int	scop_obj_tri(t_scop *scop, char *line)
 				return (ft_putlog("Vertex index not found! Line: ", line));
 			it++;
 		}
-		// scop->obj.tcount = it;
 		array_free(&arr);
 	}
 	return (1);
@@ -98,7 +97,7 @@ static int	scop_obj_line(t_scop *scop, char *line)
 			array_free(&arr);
 		}
 	}
- 	if (ft_strstart(line, "f "))
+	if (ft_strstart(line, "f "))
 	{
 		if (!scop_obj_tri(scop, line))
 			return (0);

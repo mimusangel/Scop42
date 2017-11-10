@@ -6,7 +6,7 @@
 /*   By: mgallo <mgallo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 21:15:50 by mgallo            #+#    #+#             */
-/*   Updated: 2017/11/10 08:46:45 by mgallo           ###   ########.fr       */
+/*   Updated: 2017/11/10 09:30:50 by mgallo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,22 +39,31 @@ static int		scop_load(t_scop *scop)
 	return (1);
 }
 
-static void		scop_loop(t_scop *scop)
+static int		scop_generate(t_scop *scop)
 {
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_FRONT);
 	if (!scop_shaders_build(scop))
-		return ;
+		return (0);
 	if (!mesh_begin(scop))
-		return ;
+		return (0);
 	mesh_add(&(scop->obj.mesh), VBO_POS, 3 * scop->obj.tcount, scop->obj.buff);
 	texture_generate_buffer(scop);
-	mesh_add(&(scop->obj.mesh), VBO_TEXTURE, 3 * scop->obj.tcount, scop->obj.buff);
+	mesh_add(&(scop->obj.mesh), VBO_TEXTURE, 3 * scop->obj.tcount,
+		scop->obj.buff);
 	scop_obj_color(scop);
-	mesh_add(&(scop->obj.mesh), VBO_COLOR, 3 * scop->obj.tcount, scop->obj.buff);
+	mesh_add(&(scop->obj.mesh), VBO_COLOR, 3 * scop->obj.tcount,
+		scop->obj.buff);
 	mesh_end(scop);
 	if (!texture_generate(scop) && scop->bmp_loaded)
+		return (0);
+	return (1);
+}
+
+static void		scop_loop(t_scop *scop)
+{
+	if (!scop_generate(scop))
 		return ;
 	while (scop->run)
 	{

@@ -6,7 +6,7 @@ FILES = scop.c \
 	str.c str2.c number.c \
 	file.c obj.c parser.c mesh.c \
 	shaders.c mat4.c rotate.c \
-	scop_shaders.c \
+	scop_shaders.c uniform.c \
 	array.c \
 	update.c \
 	bmp.c texture.c
