@@ -6,7 +6,7 @@
 /*   By: mgallo <mgallo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/10 09:33:22 by mgallo            #+#    #+#             */
-/*   Updated: 2017/11/11 18:13:19 by mgallo           ###   ########.fr       */
+/*   Updated: 2017/11/11 18:46:51 by mgallo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	ft_strequal(char *s1, char *s2)
 		s1++;
 		s2++;
 	}
-	return (!*s1 && !*s2);
+	return (*s1 == *s2);
 }
 
 static void	scop_command(void)
@@ -39,7 +39,7 @@ void		scop_args(t_scop *scop, int ac, char **av)
 {
 	size_t i;
 
-	scop->calc_normal_type = 0;
+	scop->calc_normal_type = 1;
 	scop->rand_mod = 0;
 	scop->color_mod = 0;
 	scop->wireframe = 0;
@@ -50,6 +50,8 @@ void		scop_args(t_scop *scop, int ac, char **av)
 			scop->calc_normal_type = 0;
 		else if (ft_strequal(av[i], "-flat"))
 			scop->calc_normal_type = 1;
+		else if (ft_strequal(av[i], "-flatxy"))
+			scop->calc_normal_type = 2;
 		else if (ft_strequal(av[i], "-rand"))
 			scop->rand_mod = 1;
 		else if (ft_strequal(av[i], "-color"))
@@ -63,8 +65,9 @@ int			scop_usage(char *name)
 	ft_putstr("Usage: ");
 	ft_putlog(name, " <file.obj> [image.bmp] [Arguments...]");
 	ft_putstr("Arguments:\n");
-	ft_putstr("\t-sphere: calcul des textures par sphere(par defaut)\n");
-	ft_putstr("\t-flat: calcul des textures par les axe y et z\n");
+	ft_putstr("\t-sphere: calcul des textures par sphere\n");
+	ft_putstr("\t-flat: calcul des textures par les axe z et y(par defaut)\n");
+	ft_putstr("\t-flatxy: calcul des textures par les axe x et y\n");
 	ft_putstr("\t-rand: active le srand pour les couleur\n");
 	ft_putstr("\t-color: les couleur ne sont plus noir vers blanc\n");
 	return (0);

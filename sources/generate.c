@@ -6,7 +6,7 @@
 /*   By: mgallo <mgallo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/10 09:56:49 by mgallo            #+#    #+#             */
-/*   Updated: 2017/11/11 16:13:25 by mgallo           ###   ########.fr       */
+/*   Updated: 2017/11/11 18:45:45 by mgallo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,14 @@ void		texture_generate_buffer(t_scop *scop)
 	i = -1;
 	while (++i < scop->obj.tcount * 3)
 	{
-		if (scop->calc_normal_type)
+		if (scop->calc_normal_type > 0)
 		{
-			scop->obj.buff[i * 2] = (scop->obj.buff[i * 3 + 2]
-				- scop->obj.min.z) / (scop->obj.max.z - scop->obj.min.z);
+			if (scop->calc_normal_type == 2)
+				scop->obj.buff[i * 2] = (scop->obj.buff[i * 3]
+					- scop->obj.min.z) / (scop->obj.max.z - scop->obj.min.z);
+			else
+				scop->obj.buff[i * 2] = (scop->obj.buff[i * 3 + 2]
+					- scop->obj.min.z) / (scop->obj.max.z - scop->obj.min.z);
 			scop->obj.buff[i * 2 + 1] = (scop->obj.buff[i * 3 + 1]
 				- scop->obj.min.y) / (scop->obj.max.y - scop->obj.min.y);
 		}
