@@ -6,13 +6,13 @@
 /*   By: mgallo <mgallo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/08 00:45:27 by mgallo            #+#    #+#             */
-/*   Updated: 2017/11/10 09:21:28 by mgallo           ###   ########.fr       */
+/*   Updated: 2017/11/11 18:06:43 by mgallo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "scop.h"
 
-void		scop_shaders_init(t_scop *scop)
+int			scop_shaders_load(t_scop *scop)
 {
 	scop->program_shader = 0;
 	scop->shader_frag = NULL;
@@ -23,10 +23,6 @@ void		scop_shaders_init(t_scop *scop)
 	scop->rotate_speed = 0.5f;
 	scop->auto_rotate = 1;
 	scop->texture_mode = 0.f;
-}
-
-int			scop_shaders_load(t_scop *scop)
-{
 	scop->shader_frag = scop_file_content("scop.frag");
 	if (scop->shader_frag == NULL)
 		return (ft_putlog("File not found! ", "scop.frag"));
@@ -46,7 +42,8 @@ void		scop_shaders_update(t_scop *scop)
 	free(scop->model);
 	tmp[0] = mat4_translate(scop->obj.pos.x, scop->obj.pos.y, scop->obj.pos.z);
 	tmp[1] = mat4_rotate(scop->obj.rot.x, scop->obj.rot.y, scop->obj.rot.z);
-	tmp[2] = mat4_translate(-scop->obj.cx, -scop->obj.cy, -scop->obj.cz);
+	tmp[2] = mat4_translate(-scop->obj.center.x, -scop->obj.center.y,
+		-scop->obj.center.z);
 	tmp[3] = mat4_multiplie(tmp[1], tmp[2]);
 	scop->model = mat4_multiplie(tmp[0], tmp[3]);
 	free(tmp[0]);
@@ -59,12 +56,7 @@ void		scop_shaders_update(t_scop *scop)
 	uniform_mat4(scop->program_shader, "view", scop->view);
 	uniform_float(scop->program_shader, "tMode", scop->texture_mode);
 	uniform_int(scop->program_shader, "disableTexture", !scop->bmp_loaded);
-	if (scop->auto_rotate)
-		scop->obj.rot.y += scop->rotate_speed;
-	if (scop->obj.rot.y > 360.f)
-		scop->obj.rot.y = scop->obj.rot.y - 360.f;
-	if (scop->obj.rot.y < -360.f)
-		scop->obj.rot.y = scop->obj.rot.y + 360.f;
+	uniform_int(scop->program_shader, "wireframe", scop->wireframe);
 }
 
 int			scop_shaders_build(t_scop *scop)

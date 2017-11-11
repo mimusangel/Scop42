@@ -6,14 +6,16 @@
 /*   By: mgallo <mgallo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 21:15:50 by mgallo            #+#    #+#             */
-/*   Updated: 2017/11/10 09:36:09 by mgallo           ###   ########.fr       */
+/*   Updated: 2017/11/11 18:05:22 by mgallo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <time.h>
 #include "scop.h"
 
 static int		scop_load(t_scop *scop)
 {
+	srand((scop->rand_mod) ? time(NULL) : 0);
 	if (!glfwInit())
 	{
 		ft_putstr("Erreur init glfw!");
@@ -30,6 +32,7 @@ static int		scop_load(t_scop *scop)
 		return (0);
 	}
 	glfwMakeContextCurrent(scop->win);
+	glfwSetKeyCallback(scop->win, key_callback);
 	glewExperimental = GL_TRUE;
 	if (glewInit() != GLEW_OK)
 	{
@@ -41,6 +44,8 @@ static int		scop_load(t_scop *scop)
 
 static int		scop_generate(t_scop *scop)
 {
+	glfwSetWindowUserPointer(scop->win, scop);
+	scop->mode = 0;
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_FRONT);
@@ -102,14 +107,9 @@ int				main(int ac, char **av)
 	t_scop	scop;
 
 	if (ac < 2)
-	{
-		ft_putstr("Usage: ");
-		ft_putlog(av[0], " <file.obj> [image.bmp] [-sphere/-flat]");
-		return (0);
-	}
+		return (scop_usage(av[0]));
 	scop_args(&scop, ac, av);
 	scop_init_obj(&scop);
-	scop_shaders_init(&scop);
 	if (!ft_strend(av[1], ".obj"))
 		ft_putstr("File extend isn't valid!");
 	else if (scop_load_obj(&scop, av[1]) && scop_shaders_load(&scop))

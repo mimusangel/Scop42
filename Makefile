@@ -27,6 +27,10 @@ all: build $(NAME)
 build :
 	@mkdir -p $(OBJ_ALL_DIR)
 
+install:
+	~/.brew/bin/brew install glfw
+	~/.brew/bin/brew install glew
+
 $(NAME): $(OBJS)
 	$(CC) -o $@ $^ $(LIBFLAGS)
 	@echo "Make $(NAME) :\033[1;32m DONE !\033[m"

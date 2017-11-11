@@ -6,7 +6,7 @@
 /*   By: mgallo <mgallo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 21:15:53 by mgallo            #+#    #+#             */
-/*   Updated: 2017/11/10 09:57:41 by mgallo           ###   ########.fr       */
+/*   Updated: 2017/11/11 18:05:09 by mgallo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 # define SCOP_TORADIANS(x)	(x * 0.0174533f)
 
 # ifndef BUFF_SIZE
-#  define BUFF_SIZE 2048
+#  define BUFF_SIZE 8192
 # endif
 
 # ifndef MAX
@@ -68,9 +68,7 @@ typedef struct	s_obj
 	GLfloat		*v;
 	size_t		tcount;
 	GLfloat		*buff;
-	GLfloat		cx;
-	GLfloat		cy;
-	GLfloat		cz;
+	t_vec3		center;
 	t_vec3		pos;
 	t_vec3		rot;
 	t_vec3		min;
@@ -91,11 +89,15 @@ typedef struct	s_scop
 	t_obj		obj;
 	int			auto_rotate;
 	float		rotate_speed;
+	int			mode;
 	float		texture_mode;
 	int			bmp_loaded;
 	t_bmp		bmp;
 	GLuint		texture;
 	int			calc_normal_type;
+	int			rand_mod;
+	int			color_mod;
+	int			wireframe;
 }				t_scop;
 
 /*
@@ -170,7 +172,6 @@ GLfloat			*mat4_rotate(GLfloat x, GLfloat y, GLfloat z);
 /*
 ** scop_shaders.c
 */
-void			scop_shaders_init(t_scop *scop);
 int				scop_shaders_load(t_scop *scop);
 int				scop_shaders_build(t_scop *scop);
 void			scop_shaders_unload(t_scop *scop);
@@ -191,6 +192,7 @@ void			array_free(t_array **arr);
 ** update.c
 */
 void			scop_update(t_scop *scop);
+void			key_callback(GLFWwindow *w, int k, int sc, int a, int m);
 /*
 ** texture.c
 */
@@ -202,6 +204,7 @@ void			texture_unload(t_scop *scop);
 ** args.c
 */
 void			scop_args(t_scop *scop, int ac, char **av);
+int				scop_usage(char *name);
 /*
 ** generate.c
 */

@@ -6,13 +6,13 @@
 /*   By: mgallo <mgallo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/07 22:06:17 by mgallo            #+#    #+#             */
-/*   Updated: 2017/11/10 09:28:10 by mgallo           ###   ########.fr       */
+/*   Updated: 2017/11/11 17:58:49 by mgallo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "scop.h"
 
-static int		scop_obj_count_check(t_scop *scop, t_array *arr)
+static int		obj_check(t_scop *scop, t_array *arr)
 {
 	size_t	i;
 	char	*line;
@@ -34,6 +34,8 @@ static int		scop_obj_count_check(t_scop *scop, t_array *arr)
 			return (ft_putlog("Invalid line! Line: ", line));
 		array_free(&check);
 	}
+	if (!scop->obj.vcount || !scop->obj.tcount)
+		return (ft_putlog("Error obj don't have vertex or face! ", ""));
 	return (1);
 }
 
@@ -43,15 +45,9 @@ void			scop_init_obj(t_scop *scop)
 	scop->obj.tcount = 0;
 	scop->obj.v = NULL;
 	scop->obj.buff = NULL;
-	scop->obj.cx = 0.f;
-	scop->obj.cy = 0.f;
-	scop->obj.cz = 0.f;
-	scop->obj.pos.x = 0.f;
-	scop->obj.pos.y = 0.f;
-	scop->obj.pos.z = 6.f;
-	scop->obj.rot.x = 0.f;
-	scop->obj.rot.y = 0.f;
-	scop->obj.rot.z = 0.f;
+	scop->obj.center = (t_vec3){0.f, 0.f, 0.f};
+	scop->obj.pos = (t_vec3){0.f, 0.f, 6.f};
+	scop->obj.rot = (t_vec3){0.f, 0.f, 0.f};
 }
 
 int				scop_load_obj(t_scop *scop, char *path)
@@ -67,7 +63,7 @@ int				scop_load_obj(t_scop *scop, char *path)
 		free(file_content);
 	if (array_file->len <= 1)
 		return (ft_putlog("Not valid file!\n", path));
-	if (!scop_obj_count_check(scop, array_file))
+	if (!obj_check(scop, array_file))
 		return (0);
 	scop->obj.v = (GLfloat *)malloc(sizeof(GLfloat) * scop->obj.vcount * 3);
 	if (!scop->obj.v)
@@ -95,14 +91,19 @@ void			scop_obj_color(t_scop *scop)
 {
 	size_t	i;
 	size_t	j;
-	float	color;
+	float	color[3];
 
 	i = -1;
 	while (++i < scop->obj.tcount)
 	{
-		color = 0.1f + ((float)rand() / (float)(RAND_MAX)) * 0.8f;
+		color[0] = ((float)rand() / (float)(RAND_MAX));
+		color[1] = ((float)rand() / (float)(RAND_MAX));
+		color[2] = ((float)rand() / (float)(RAND_MAX));
 		j = -1;
 		while (++j < 9)
-			scop->obj.buff[i * 9 + j] = color;
+		{
+			scop->obj.buff[i * 9 + j] = 0.1f
+				+ color[(scop->color_mod) ? j % 3 : 0] * 0.8f;
+		}
 	}
 }

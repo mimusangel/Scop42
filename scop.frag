@@ -5,6 +5,7 @@ out vec4 color;
 uniform float tMode;
 uniform sampler2D uTexture;
 uniform int disableTexture;
+uniform int wireframe;
 
 in vec3 vColor;
 in vec2 vTex;
@@ -18,5 +19,9 @@ void main(){
 	{
 		vec4 texColor = texture(uTexture, vTex);
   		color = vec4(vColor * (1.0 - tMode) + texColor.rgb * tMode, 1.0);
+	}
+	if (wireframe == 1)
+	{
+		color = vec4(1.0);
 	}
 }
