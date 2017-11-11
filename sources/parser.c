@@ -6,7 +6,7 @@
 /*   By: mgallo <mgallo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/08 06:56:36 by mgallo            #+#    #+#             */
-/*   Updated: 2017/11/10 09:51:37 by mgallo           ###   ########.fr       */
+/*   Updated: 2017/11/11 16:25:18 by mgallo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,31 +57,25 @@ static int	scop_obj_tri(t_scop *scop, char *line)
 	return (1);
 }
 
-static void	scop_obj_center(t_scop *scop)
+static void	scop_obj_pos(t_scop *scop, size_t i, t_vec3 pos)
 {
-	size_t	i;
-
-	scop->obj.cx = 0;
-	scop->obj.cy = 0;
-	scop->obj.cz = 0;
-	scop->obj.min = (t_vec3){scop->obj.v[0], scop->obj.v[1], scop->obj.v[2]};
-	scop->obj.max = (t_vec3){scop->obj.v[0], scop->obj.v[1], scop->obj.v[2]};
-	i = -1;
-	while (++i < scop->obj.vcount)
+	scop->obj.v[i] = (GLfloat)pos.x;
+	scop->obj.v[i + 1] = (GLfloat)pos.y;
+	scop->obj.v[i + 2] = (GLfloat)pos.z;
+	if (i == 0)
 	{
-		scop->obj.cx += scop->obj.v[i * 3];
-		scop->obj.cy += scop->obj.v[i * 3 + 1];
-		scop->obj.cz += scop->obj.v[i * 3 + 2];
-		scop->obj.min.x = MIN(scop->obj.min.x, scop->obj.v[i * 3]);
-		scop->obj.min.y = MIN(scop->obj.min.y, scop->obj.v[i * 3 + 1]);
-		scop->obj.min.z = MIN(scop->obj.min.z, scop->obj.v[i * 3 + 1]);
-		scop->obj.max.x = MAX(scop->obj.max.x, scop->obj.v[i * 3]);
-		scop->obj.max.y = MAX(scop->obj.max.y, scop->obj.v[i * 3 + 1]);
-		scop->obj.max.z = MAX(scop->obj.max.z, scop->obj.v[i * 3 + 1]);
+		scop->obj.min = (t_vec3){pos.x, pos.y, pos.z};
+		scop->obj.max = (t_vec3){pos.x, pos.y, pos.z};
 	}
-	scop->obj.cx /= (GLfloat)scop->obj.vcount;
-	scop->obj.cy /= (GLfloat)scop->obj.vcount;
-	scop->obj.cz /= (GLfloat)scop->obj.vcount;
+	else
+	{
+		scop->obj.min.x = MIN(scop->obj.min.x, pos.x);
+		scop->obj.min.y = MIN(scop->obj.min.y, pos.y);
+		scop->obj.min.z = MIN(scop->obj.min.z, pos.z);
+		scop->obj.max.x = MAX(scop->obj.max.x, pos.x);
+		scop->obj.max.y = MAX(scop->obj.max.y, pos.y);
+		scop->obj.max.z = MAX(scop->obj.max.z, pos.z);
+	}
 }
 
 static int	scop_obj_line(t_scop *scop, char *line)
@@ -96,11 +90,8 @@ static int	scop_obj_line(t_scop *scop, char *line)
 		if (arr)
 		{
 			if (arr->len <= 4)
-			{
-				scop->obj.v[iv * 3] = (GLfloat)ft_atof(arr->data[1]);
-				scop->obj.v[iv * 3 + 1] = (GLfloat)ft_atof(arr->data[2]);
-				scop->obj.v[iv * 3 + 2] = (GLfloat)ft_atof(arr->data[3]);
-			}
+				scop_obj_pos(scop, iv * 3, (t_vec3){ft_atof(arr->data[1]),
+					ft_atof(arr->data[2]), ft_atof(arr->data[3])});
 			iv++;
 			array_free(&arr);
 		}
@@ -128,6 +119,8 @@ int			scop_obj_parser(t_scop *scop, t_array *arr)
 		arr->data[i] = NULL;
 	}
 	free(arr->data);
-	scop_obj_center(scop);
+	scop->obj.center.x = (scop->obj.max.x + scop->obj.min.x) / 2.0f;
+	scop->obj.center.y = (scop->obj.max.y + scop->obj.min.y) / 2.0f;
+	scop->obj.center.z = (scop->obj.max.z + scop->obj.min.z) / 2.0f;
 	return (1);
 }

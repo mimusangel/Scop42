@@ -6,7 +6,7 @@
 /*   By: mgallo <mgallo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/10 09:56:49 by mgallo            #+#    #+#             */
-/*   Updated: 2017/11/10 09:59:59 by mgallo           ###   ########.fr       */
+/*   Updated: 2017/11/11 16:13:25 by mgallo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ static void	texture_generate_sphere(t_scop *scop, int i)
 	t_vec3	normal;
 	float	len;
 
-	normal.x = scop->obj.buff[i * 3] - scop->obj.cx;
-	normal.y = scop->obj.buff[i * 3 + 1] - scop->obj.cy;
-	normal.z = scop->obj.buff[i * 3 + 2] - scop->obj.cz;
+	normal.x = scop->obj.buff[i * 3] - scop->obj.center.x;
+	normal.y = scop->obj.buff[i * 3 + 1] - scop->obj.center.y;
+	normal.z = scop->obj.buff[i * 3 + 2] - scop->obj.center.z;
 	len = sqrtf(normal.x * normal.x + normal.y * normal.y
 		+ normal.z * normal.z);
 	normal.x /= len;
